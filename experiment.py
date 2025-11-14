@@ -141,7 +141,19 @@ class experiment():
         
         self.logger.info("="*60 + "\n")
         
-        return valid_metrics, test_metrics
+        # Save predictions for visualization
+        predictions = {
+            'valid': {
+                'y_true': Yvalid_orig,
+                'y_pred': Yvalid_pred.numpy().squeeze() if self.reg_label else np.argmax(Yvalid_pred.numpy(), axis=-1)
+            },
+            'test': {
+                'y_true': Ytest_orig,
+                'y_pred': Ytest_pred.numpy().squeeze() if self.reg_label else np.argmax(Ytest_pred.numpy(), axis=-1)
+            }
+        }
+        
+        return valid_metrics, test_metrics, predictions
     
     def _evaluate(self, y_true, y_pred, set_name):
         """Evaluate model performance and return metrics"""
@@ -190,12 +202,42 @@ class experiment():
             }
         
 if __name__ == "__main__":
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='VIGNet Training Script')
+    parser.add_argument('--trial', type=int, default=None, 
+                       help='Specify a single trial number to run (1-23). If not specified, runs all trials.')
+    parser.add_argument('--task', type=str, default='RGS', choices=['RGS', 'CLF'],
+                       help='Task type: RGS (regression) or CLF (classification). Default: RGS')
+    parser.add_argument('--log-dir', type=str, default='./logs',
+                       help='Directory for log files. Default: ./logs')
+    parser.add_argument('--save-predictions', action='store_true',
+                       help='Save predictions to .npy files for visualization')
+    
+    args = parser.parse_args()
+    
     # Create main log directory
-    main_log_dir = "./logs"
+    main_log_dir = args.log_dir
     os.makedirs(main_log_dir, exist_ok=True)
     
-    task = 'RGS'
+    # Create predictions directory if needed
+    if args.save_predictions:
+        predictions_dir = os.path.join(main_log_dir, "predictions")
+        os.makedirs(predictions_dir, exist_ok=True)
+    
+    task = args.task
     start_time = datetime.now()
+    
+    # Determine which trials to run
+    if args.trial is not None:
+        if args.trial < 1 or args.trial > 23:
+            print(f"Error: Trial number must be between 1 and 23. Got: {args.trial}")
+            exit(1)
+        trials_to_run = [args.trial]
+        print(f"Running single trial: {args.trial}")
+    else:
+        trials_to_run = list(range(1, 24))
+        print(f"Running all trials: 1-23")
     
     # Overall summary log
     summary_log_path = os.path.join(main_log_dir, f"training_summary_{start_time.strftime('%Y%m%d_%H%M%S')}.log")
@@ -210,7 +252,7 @@ if __name__ == "__main__":
     summary_logger.info(f"Start time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
     summary_logger.info("="*80)
     
-    for trial in range(1, 24):
+    for trial in trials_to_run:
         # Create a log file for each trial
         trial_log_path = os.path.join(main_log_dir, f"trial{trial}_{task}_{start_time.strftime('%Y%m%d_%H%M%S')}.log")
         trial_logger = logging.getLogger(f"trial_{trial}")
@@ -252,9 +294,24 @@ if __name__ == "__main__":
             
             main = experiment(trial_idx=trial, cv_idx=fold, gpu_idx=0, task=task, logger=trial_logger, log_dir=main_log_dir)
             try:
-                valid_metrics, test_metrics = main.training()
+                valid_metrics, test_metrics, predictions = main.training()
                 all_valid_metrics.append(valid_metrics)
                 all_test_metrics.append(test_metrics)
+                
+                # Save predictions if requested
+                if args.save_predictions:
+                    predictions_dir = os.path.join(main_log_dir, "predictions")
+                    for set_name_key, set_name_file in [('valid', 'validation'), ('test', 'test')]:
+                        pred_file = os.path.join(predictions_dir, 
+                                               f"trial{trial}_cv{fold}_{set_name_file}.npy")
+                        np.save(pred_file, {
+                            'trial': trial,
+                            'cv': fold,
+                            'set': set_name_file,
+                            'y_true': predictions[set_name_key]['y_true'],
+                            'y_pred': predictions[set_name_key]['y_pred']
+                        })
+                
                 trial_logger.info(f"CV Fold {fold} completed successfully")
                 summary_logger.info(f"  Trial {trial} CV {fold} completed successfully")
             except Exception as e:
