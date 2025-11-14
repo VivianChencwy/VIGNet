@@ -1,0 +1,58 @@
+2025-11-13 18:25:56,190 - INFO - Log file: ./logs/trial18_cv4_RGS_20251113_182556.log
+2025-11-13 18:25:56,190 - INFO - START TRAINING TRIAL 18 CV 4 - Task: RGS
+2025-11-13 18:25:56,190 - INFO - Learning rate: 0.001, Epochs: 100, Batches: 5
+2025-11-13 18:25:56,190 - INFO - Loading dataset...
+2025-11-13 18:25:56,299 - INFO - Dataset shapes - Train: (567, 17, 25, 1), Valid: (141, 17, 25, 1), Test: (177, 17, 25, 1)
+2025-11-13 18:25:56,300 - INFO - Initializing VIGNet model...
+2025-11-13 18:25:56,304 - INFO - Number of batch iterations per epoch: 113
+2025-11-13 18:26:04,182 - INFO - Epoch: 1, Training Loss: 1.1775
+2025-11-13 18:26:11,978 - INFO - Epoch: 2, Training Loss: 0.7902
+2025-11-13 18:26:19,707 - INFO - Epoch: 3, Training Loss: 0.7113
+2025-11-13 18:26:27,538 - INFO - Epoch: 4, Training Loss: 0.6975
+2025-11-13 18:26:35,108 - INFO - Epoch: 5, Training Loss: 0.6938
+2025-11-13 18:26:42,732 - INFO - Epoch: 6, Training Loss: 0.6953
+2025-11-13 18:26:50,431 - INFO - Epoch: 7, Training Loss: 0.6926
+2025-11-13 18:26:58,055 - INFO - Epoch: 8, Training Loss: 0.6930
+2025-11-13 18:27:05,755 - INFO - Epoch: 9, Training Loss: 0.6987
+2025-11-13 18:27:13,392 - INFO - Epoch: 10, Training Loss: 0.6935
+2025-11-13 18:27:20,855 - INFO - Epoch: 11, Training Loss: 0.6884
+2025-11-13 18:27:28,605 - INFO - Epoch: 12, Training Loss: 0.6909
+2025-11-13 18:27:36,324 - INFO - Epoch: 13, Training Loss: 0.6863
+2025-11-13 18:27:43,871 - INFO - Epoch: 14, Training Loss: 0.6838
+2025-11-13 18:27:51,440 - INFO - Epoch: 15, Training Loss: 0.6896
+2025-11-13 18:27:58,968 - INFO - Epoch: 16, Training Loss: 0.6894
+2025-11-13 18:28:06,625 - INFO - Epoch: 17, Training Loss: 0.6839
+2025-11-13 18:28:14,148 - INFO - Epoch: 18, Training Loss: 0.6820
+2025-11-13 18:28:21,862 - INFO - Epoch: 19, Training Loss: 0.6759
+2025-11-13 18:28:29,508 - INFO - Epoch: 20, Training Loss: 0.6658
+2025-11-13 18:28:37,065 - INFO - Epoch: 21, Training Loss: 0.6430
+2025-11-13 18:28:44,604 - INFO - Epoch: 22, Training Loss: 0.6822
+2025-11-13 18:28:52,338 - INFO - Epoch: 23, Training Loss: 0.6431
+2025-11-13 18:29:00,178 - INFO - Epoch: 24, Training Loss: 0.6254
+2025-11-13 18:29:07,715 - INFO - Epoch: 25, Training Loss: 0.5909
+2025-11-13 18:29:15,380 - INFO - Epoch: 26, Training Loss: 0.5927
+2025-11-13 18:29:22,871 - INFO - Epoch: 27, Training Loss: 0.5758
+2025-11-13 18:29:30,454 - INFO - Epoch: 28, Training Loss: 0.5620
+2025-11-13 18:29:38,305 - INFO - Epoch: 29, Training Loss: 0.5869
+2025-11-13 18:29:45,989 - INFO - Epoch: 30, Training Loss: 0.5830
+2025-11-13 18:29:53,478 - INFO - Epoch: 31, Training Loss: 0.5785
+2025-11-13 18:30:01,143 - INFO - Epoch: 32, Training Loss: 0.5889
+2025-11-13 18:30:08,720 - INFO - Epoch: 33, Training Loss: 0.5778
+2025-11-13 18:30:16,354 - INFO - Epoch: 34, Training Loss: 0.5931
+2025-11-13 18:30:24,084 - INFO - Epoch: 35, Training Loss: 0.6174
+2025-11-13 18:30:31,681 - INFO - Epoch: 36, Training Loss: 0.5494
+2025-11-13 18:30:39,334 - INFO - Epoch: 37, Training Loss: 0.5484
+2025-11-13 18:30:46,932 - INFO - Epoch: 38, Training Loss: 0.5642
+2025-11-13 18:30:54,992 - INFO - Epoch: 39, Training Loss: 0.5462
+2025-11-13 18:31:02,602 - INFO - Epoch: 40, Training Loss: 0.5398
+2025-11-13 18:31:10,059 - INFO - Epoch: 41, Training Loss: 0.5332
+2025-11-13 18:31:17,734 - INFO - Epoch: 42, Training Loss: 0.6087
+2025-11-13 18:31:25,364 - INFO - Epoch: 43, Training Loss: 0.6047
+2025-11-13 18:31:32,993 - INFO - Epoch: 44, Training Loss: 0.6189
+2025-11-13 18:31:40,710 - INFO - Epoch: 45, Training Loss: 0.5480
+2025-11-13 18:31:48,111 - INFO - Epoch: 46, Training Loss: 0.5456
+2025-11-13 18:31:55,924 - INFO - Epoch: 47, Training Loss: 0.5528
+2025-11-13 18:32:03,621 - INFO - Epoch: 48, Training Loss: 0.5614
+2025-11-13 18:32:11,230 - INFO - Epoch: 49, Training Loss: 0.8089
+2025-11-13 18:32:18,839 - INFO - Epoch: 50, Training Loss: 0.5757
+2025-11-13 18:32:26,641 - INFO - Epoch: 51, Training Loss: 0.5460

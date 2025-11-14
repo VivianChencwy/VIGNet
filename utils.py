@@ -3,6 +3,8 @@ import numpy as np
 import tensorflow as tf
 import seaborn as sns
 import matplotlib.pyplot as plt
+import os
+import glob
 
 from scipy.io import loadmat
 
@@ -14,20 +16,77 @@ class load_dataset():
         self.reg_label = reg_label
         self.call_eeg = call_eeg
 
-        self.basePath = "/Define/your/own/path" # define the data path
+        self.basePath = "../SEED-VIG" # define the data path
+
+    def _find_file(self, directory, prefix):
+        """Find file starting with the given prefix in the directory"""
+        pattern = os.path.join(self.basePath, directory, "{}_*.mat".format(prefix))
+        files = sorted(glob.glob(pattern))
+        if not files:
+            raise FileNotFoundError("No file found matching pattern: {}".format(pattern))
+        # If multiple files match (e.g., 4_20151105_noon.mat and 4_20151107_noon.mat), take the first one after sorting
+        return files[0]
 
     def call(self):
-        EEG = loadmat(self.basePath + "/Raw_Data/{}.mat".format(self.trial))["EEG"]["data"][0][0]
-        feature = loadmat(self.basePath + "/DE/{}.mat".format(self.trial))[self.type]
-        label = np.squeeze(loadmat(self.basePath + "/perclos_labels/{}.mat".format(self.trial))["perclos"])
+        # Check if DE folder exists, otherwise use EEG_Feature_2Hz
+        de_folder = "DE"
+        if not os.path.exists(os.path.join(self.basePath, de_folder)):
+            de_folder = "EEG_Feature_2Hz"
+        
+        feature_file = self._find_file(de_folder, self.trial)
+        try:
+            feature = loadmat(feature_file, struct_as_record=False)[self.type]
+        except (OSError, KeyError):
+            try:
+                feature = loadmat(feature_file, struct_as_record=True)[self.type]
+            except Exception as e:
+                raise RuntimeError(f"Failed to load {feature_file}. Error: {e}")
+        
+        label_file = self._find_file("perclos_labels", self.trial)
+        try:
+            label = np.squeeze(loadmat(label_file, struct_as_record=False)["perclos"])
+        except (OSError, KeyError):
+            try:
+                label = np.squeeze(loadmat(label_file, struct_as_record=True)["perclos"])
+            except Exception as e:
+                raise RuntimeError(f"Failed to load {label_file}. Error: {e}")
 
-        temp = np.zeros((feature.shape[1], int(EEG.shape[0] / feature.shape[1]), EEG.shape[-1]))  # (885, 1600, 17)
-        for i in range(temp.shape[0]):
-            temp[i, :, :] = EEG[i * 1600:(i + 1) * 1600, :]
+        # Load raw EEG data only if call_eeg is True, otherwise create a dummy array
+        if self.call_eeg:
+            raw_data_file = self._find_file("Raw_Data", self.trial)
+            
+            # Try different methods to load MATLAB file
+            EEG = None
+            try:
+                mat_data = loadmat(raw_data_file, struct_as_record=False, squeeze_me=False)
+                EEG = mat_data["EEG"]["data"][0][0]
+            except (OSError, KeyError) as e:
+                # Try with different parameters
+                try:
+                    mat_data = loadmat(raw_data_file, struct_as_record=True, squeeze_me=False)
+                    EEG = mat_data["EEG"]["data"][0][0]
+                except Exception as e2:
+                    # Last resort: try with simplify_cells
+                    try:
+                        mat_data = loadmat(raw_data_file, simplify_cells=False)
+                        EEG = mat_data["EEG"]["data"][0][0]
+                    except Exception as e3:
+                        raise RuntimeError(f"Failed to load {raw_data_file} with multiple methods. Last error: {e3}")
+            
+            # Reshape EEG data
+            temp = np.zeros((feature.shape[1], int(EEG.shape[0] / feature.shape[1]), EEG.shape[-1]))  # (885, 1600, 17)
+            for i in range(temp.shape[0]):
+                temp[i, :, :] = EEG[i * 1600:(i + 1) * 1600, :]
+            EEG = temp  # (885, 1600, 17)
+        else:
+            # Create a dummy EEG array with the expected shape when call_eeg is False
+            # Shape: (num_samples, 17, 1600) based on feature.shape[1] samples
+            num_samples = feature.shape[1]
+            num_channels = 17
+            num_timepoints = 1600
+            EEG = np.zeros((num_samples, num_channels, num_timepoints))
 
-        EEG = temp  # (885, 1600, 17)
-
-        temp = np.zeros(shape=label.shape, dtype=np.int)
+        temp = np.zeros(shape=label.shape, dtype=int)
 
         for i in range(temp.shape[0]):
             if label[i] < 0.35:

@@ -1,0 +1,183 @@
+2025-11-12 01:24:04,438 - ================================================================================
+2025-11-12 01:24:04,438 - SEED-VIG Training Summary
+2025-11-12 01:24:04,438 - Start time: 2025-11-12 01:24:04
+2025-11-12 01:24:04,438 - ================================================================================
+2025-11-12 01:24:04,438 - Starting Trial 1 CV 0
+2025-11-12 01:37:16,957 - Completed Trial 1 CV 0 successfully
+2025-11-12 01:37:16,957 - Starting Trial 1 CV 1
+2025-11-12 01:50:32,934 - Completed Trial 1 CV 1 successfully
+2025-11-12 01:50:32,934 - Starting Trial 1 CV 2
+2025-11-12 02:03:54,422 - Completed Trial 1 CV 2 successfully
+2025-11-12 02:03:54,422 - Starting Trial 1 CV 3
+2025-11-12 02:17:13,030 - Completed Trial 1 CV 3 successfully
+2025-11-12 02:17:13,030 - Starting Trial 1 CV 4
+2025-11-12 02:30:37,412 - Completed Trial 1 CV 4 successfully
+2025-11-12 02:30:37,412 - Starting Trial 2 CV 0
+2025-11-12 02:43:58,067 - Completed Trial 2 CV 0 successfully
+2025-11-12 02:43:58,067 - Starting Trial 2 CV 1
+2025-11-12 02:57:23,850 - Completed Trial 2 CV 1 successfully
+2025-11-12 02:57:23,850 - Starting Trial 2 CV 2
+2025-11-12 03:10:38,594 - Completed Trial 2 CV 2 successfully
+2025-11-12 03:10:38,594 - Starting Trial 2 CV 3
+2025-11-12 03:23:58,494 - Completed Trial 2 CV 3 successfully
+2025-11-12 03:23:58,494 - Starting Trial 2 CV 4
+2025-11-12 03:37:21,342 - Completed Trial 2 CV 4 successfully
+2025-11-12 03:37:21,342 - Starting Trial 3 CV 0
+2025-11-12 03:50:39,166 - Completed Trial 3 CV 0 successfully
+2025-11-12 03:50:39,166 - Starting Trial 3 CV 1
+2025-11-12 04:04:00,710 - Completed Trial 3 CV 1 successfully
+2025-11-12 04:04:00,710 - Starting Trial 3 CV 2
+2025-11-12 04:17:25,249 - Completed Trial 3 CV 2 successfully
+2025-11-12 04:17:25,249 - Starting Trial 3 CV 3
+2025-11-12 04:30:44,930 - Completed Trial 3 CV 3 successfully
+2025-11-12 04:30:44,930 - Starting Trial 3 CV 4
+2025-11-12 04:44:08,544 - Completed Trial 3 CV 4 successfully
+2025-11-12 04:44:08,544 - Starting Trial 4 CV 0
+2025-11-12 04:57:27,358 - Completed Trial 4 CV 0 successfully
+2025-11-12 04:57:27,358 - Starting Trial 4 CV 1
+2025-11-12 05:10:35,495 - Completed Trial 4 CV 1 successfully
+2025-11-12 05:10:35,496 - Starting Trial 4 CV 2
+2025-11-12 05:23:57,750 - Completed Trial 4 CV 2 successfully
+2025-11-12 05:23:57,750 - Starting Trial 4 CV 3
+2025-11-12 05:37:12,430 - Completed Trial 4 CV 3 successfully
+2025-11-12 05:37:12,430 - Starting Trial 4 CV 4
+2025-11-12 05:50:29,251 - Completed Trial 4 CV 4 successfully
+2025-11-12 05:50:29,251 - Starting Trial 5 CV 0
+2025-11-12 06:03:44,601 - Completed Trial 5 CV 0 successfully
+2025-11-12 06:03:44,601 - Starting Trial 5 CV 1
+2025-11-12 06:16:55,204 - Completed Trial 5 CV 1 successfully
+2025-11-12 06:16:55,204 - Starting Trial 5 CV 2
+2025-11-12 06:30:06,617 - Completed Trial 5 CV 2 successfully
+2025-11-12 06:30:06,617 - Starting Trial 5 CV 3
+2025-11-12 06:43:21,743 - Completed Trial 5 CV 3 successfully
+2025-11-12 06:43:21,743 - Starting Trial 5 CV 4
+2025-11-12 06:56:45,443 - Completed Trial 5 CV 4 successfully
+2025-11-12 06:56:45,444 - Starting Trial 6 CV 0
+2025-11-12 07:10:05,673 - Completed Trial 6 CV 0 successfully
+2025-11-12 07:10:05,673 - Starting Trial 6 CV 1
+2025-11-12 07:23:22,757 - Completed Trial 6 CV 1 successfully
+2025-11-12 07:23:22,757 - Starting Trial 6 CV 2
+2025-11-12 07:36:45,956 - Completed Trial 6 CV 2 successfully
+2025-11-12 07:36:45,956 - Starting Trial 6 CV 3
+2025-11-12 07:50:05,030 - Completed Trial 6 CV 3 successfully
+2025-11-12 07:50:05,030 - Starting Trial 6 CV 4
+2025-11-12 08:03:22,065 - Completed Trial 6 CV 4 successfully
+2025-11-12 08:03:22,065 - Starting Trial 7 CV 0
+2025-11-12 08:16:41,499 - Completed Trial 7 CV 0 successfully
+2025-11-12 08:16:41,499 - Starting Trial 7 CV 1
+2025-11-12 08:29:56,434 - Completed Trial 7 CV 1 successfully
+2025-11-12 08:29:56,434 - Starting Trial 7 CV 2
+2025-11-12 08:43:16,547 - Completed Trial 7 CV 2 successfully
+2025-11-12 08:43:16,547 - Starting Trial 7 CV 3
+2025-11-12 08:56:33,232 - Completed Trial 7 CV 3 successfully
+2025-11-12 08:56:33,232 - Starting Trial 7 CV 4
+2025-11-12 09:09:49,251 - Completed Trial 7 CV 4 successfully
+2025-11-12 09:09:49,251 - Starting Trial 8 CV 0
+2025-11-12 09:23:08,472 - Completed Trial 8 CV 0 successfully
+2025-11-12 09:23:08,472 - Starting Trial 8 CV 1
+2025-11-12 09:36:32,011 - Completed Trial 8 CV 1 successfully
+2025-11-12 09:36:32,011 - Starting Trial 8 CV 2
+2025-11-12 09:49:53,954 - Completed Trial 8 CV 2 successfully
+2025-11-12 09:49:53,954 - Starting Trial 8 CV 3
+2025-11-12 10:03:09,190 - Completed Trial 8 CV 3 successfully
+2025-11-12 10:03:09,190 - Starting Trial 8 CV 4
+2025-11-12 10:16:38,263 - Completed Trial 8 CV 4 successfully
+2025-11-12 10:16:38,263 - Starting Trial 9 CV 0
+2025-11-12 10:30:02,499 - Completed Trial 9 CV 0 successfully
+2025-11-12 10:30:02,499 - Starting Trial 9 CV 1
+2025-11-12 10:43:27,434 - Completed Trial 9 CV 1 successfully
+2025-11-12 10:43:27,434 - Starting Trial 9 CV 2
+2025-11-12 10:56:52,477 - Completed Trial 9 CV 2 successfully
+2025-11-12 10:56:52,477 - Starting Trial 9 CV 3
+2025-11-12 11:10:06,189 - Completed Trial 9 CV 3 successfully
+2025-11-12 11:10:06,189 - Starting Trial 9 CV 4
+2025-11-12 11:23:40,542 - Completed Trial 9 CV 4 successfully
+2025-11-12 11:23:40,542 - Starting Trial 10 CV 0
+2025-11-12 11:37:03,451 - Completed Trial 10 CV 0 successfully
+2025-11-12 11:37:03,451 - Starting Trial 10 CV 1
+2025-11-12 11:50:17,276 - Completed Trial 10 CV 1 successfully
+2025-11-12 11:50:17,276 - Starting Trial 10 CV 2
+2025-11-12 12:03:38,540 - Completed Trial 10 CV 2 successfully
+2025-11-12 12:03:38,541 - Starting Trial 10 CV 3
+2025-11-12 12:16:59,316 - Completed Trial 10 CV 3 successfully
+2025-11-12 12:16:59,316 - Starting Trial 10 CV 4
+2025-11-12 12:30:16,511 - Completed Trial 10 CV 4 successfully
+2025-11-12 12:30:16,541 - Starting Trial 11 CV 0
+2025-11-12 12:43:32,483 - Completed Trial 11 CV 0 successfully
+2025-11-12 12:43:32,484 - Starting Trial 11 CV 1
+2025-11-12 12:56:43,294 - Completed Trial 11 CV 1 successfully
+2025-11-12 12:56:43,296 - Starting Trial 11 CV 2
+2025-11-12 13:10:01,688 - Completed Trial 11 CV 2 successfully
+2025-11-12 13:10:01,690 - Starting Trial 11 CV 3
+2025-11-12 13:23:13,273 - Completed Trial 11 CV 3 successfully
+2025-11-12 13:23:13,274 - Starting Trial 11 CV 4
+2025-11-12 13:36:32,181 - Completed Trial 11 CV 4 successfully
+2025-11-12 13:36:32,182 - Starting Trial 12 CV 0
+2025-11-12 13:49:47,048 - Completed Trial 12 CV 0 successfully
+2025-11-12 13:49:47,050 - Starting Trial 12 CV 1
+2025-11-12 14:03:04,688 - Completed Trial 12 CV 1 successfully
+2025-11-12 14:03:04,688 - Starting Trial 12 CV 2
+2025-11-12 14:16:28,168 - Completed Trial 12 CV 2 successfully
+2025-11-12 14:16:28,168 - Starting Trial 12 CV 3
+2025-11-12 14:29:45,793 - Completed Trial 12 CV 3 successfully
+2025-11-12 14:29:45,795 - Starting Trial 12 CV 4
+2025-11-13 08:59:42,037 - Completed Trial 12 CV 4 successfully
+2025-11-13 08:59:42,038 - Starting Trial 13 CV 0
+2025-11-13 09:20:14,088 - Completed Trial 13 CV 0 successfully
+2025-11-13 09:20:14,088 - Starting Trial 13 CV 1
+2025-11-13 09:40:44,241 - Completed Trial 13 CV 1 successfully
+2025-11-13 09:40:44,241 - Starting Trial 13 CV 2
+2025-11-13 10:01:55,990 - Completed Trial 13 CV 2 successfully
+2025-11-13 10:01:55,990 - Starting Trial 13 CV 3
+2025-11-13 10:22:12,636 - Completed Trial 13 CV 3 successfully
+2025-11-13 10:22:12,636 - Starting Trial 13 CV 4
+2025-11-13 10:42:56,785 - Completed Trial 13 CV 4 successfully
+2025-11-13 10:42:56,785 - Starting Trial 14 CV 0
+2025-11-13 11:04:27,983 - Completed Trial 14 CV 0 successfully
+2025-11-13 11:04:27,983 - Starting Trial 14 CV 1
+2025-11-13 11:24:58,447 - Completed Trial 14 CV 1 successfully
+2025-11-13 11:24:58,447 - Starting Trial 14 CV 2
+2025-11-13 11:45:50,860 - Completed Trial 14 CV 2 successfully
+2025-11-13 11:45:50,860 - Starting Trial 14 CV 3
+2025-11-13 12:06:33,410 - Completed Trial 14 CV 3 successfully
+2025-11-13 12:06:33,410 - Starting Trial 14 CV 4
+2025-11-13 12:27:36,285 - Completed Trial 14 CV 4 successfully
+2025-11-13 12:27:36,285 - Starting Trial 15 CV 0
+2025-11-13 12:48:39,008 - Completed Trial 15 CV 0 successfully
+2025-11-13 12:48:39,008 - Starting Trial 15 CV 1
+2025-11-13 13:08:19,407 - Completed Trial 15 CV 1 successfully
+2025-11-13 13:08:19,407 - Starting Trial 15 CV 2
+2025-11-13 13:28:57,240 - Completed Trial 15 CV 2 successfully
+2025-11-13 13:28:57,240 - Starting Trial 15 CV 3
+2025-11-13 13:49:19,749 - Completed Trial 15 CV 3 successfully
+2025-11-13 13:49:19,749 - Starting Trial 15 CV 4
+2025-11-13 14:09:18,393 - Completed Trial 15 CV 4 successfully
+2025-11-13 14:09:18,393 - Starting Trial 16 CV 0
+2025-11-13 14:29:49,999 - Completed Trial 16 CV 0 successfully
+2025-11-13 14:29:50,000 - Starting Trial 16 CV 1
+2025-11-13 14:50:31,931 - Completed Trial 16 CV 1 successfully
+2025-11-13 14:50:31,931 - Starting Trial 16 CV 2
+2025-11-13 15:11:18,256 - Completed Trial 16 CV 2 successfully
+2025-11-13 15:11:18,256 - Starting Trial 16 CV 3
+2025-11-13 15:31:06,647 - Completed Trial 16 CV 3 successfully
+2025-11-13 15:31:06,647 - Starting Trial 16 CV 4
+2025-11-13 15:51:32,193 - Completed Trial 16 CV 4 successfully
+2025-11-13 15:51:32,193 - Starting Trial 17 CV 0
+2025-11-13 16:12:28,178 - Completed Trial 17 CV 0 successfully
+2025-11-13 16:12:28,178 - Starting Trial 17 CV 1
+2025-11-13 16:32:06,143 - Completed Trial 17 CV 1 successfully
+2025-11-13 16:32:06,143 - Starting Trial 17 CV 2
+2025-11-13 16:52:49,271 - Completed Trial 17 CV 2 successfully
+2025-11-13 16:52:49,271 - Starting Trial 17 CV 3
+2025-11-13 17:13:18,954 - Completed Trial 17 CV 3 successfully
+2025-11-13 17:13:18,954 - Starting Trial 17 CV 4
+2025-11-13 17:32:36,151 - Completed Trial 17 CV 4 successfully
+2025-11-13 17:32:36,151 - Starting Trial 18 CV 0
+2025-11-13 17:45:59,424 - Completed Trial 18 CV 0 successfully
+2025-11-13 17:45:59,424 - Starting Trial 18 CV 1
+2025-11-13 17:59:25,404 - Completed Trial 18 CV 1 successfully
+2025-11-13 17:59:25,404 - Starting Trial 18 CV 2
+2025-11-13 18:12:54,517 - Completed Trial 18 CV 2 successfully
+2025-11-13 18:12:54,517 - Starting Trial 18 CV 3
+2025-11-13 18:25:56,189 - Completed Trial 18 CV 3 successfully
+2025-11-13 18:25:56,189 - Starting Trial 18 CV 4
