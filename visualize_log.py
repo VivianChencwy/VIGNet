@@ -39,6 +39,9 @@ def parse_log_file(log_path):
             match = re.search(r'CV Fold (\d+)', line)
             if match:
                 current_fold = int(match.group(1))
+                # Initialize dict for this fold
+                if current_fold not in eval_metrics:
+                    eval_metrics[current_fold] = {}
         
         # Extract training loss
         if current_fold is not None and 'Epoch:' in line and 'Training Loss:' in line:
@@ -49,65 +52,75 @@ def parse_log_file(log_path):
                 training_losses[current_fold].append((epoch, loss))
         
         # Extract evaluation metrics
-        if 'EVALUATION RESULTS' in line:
-            # Look ahead for metrics
-            for j in range(i+1, min(i+10, len(lines))):
+        if 'EVALUATION RESULTS' in line and current_fold is not None:
+            # Look ahead for metrics (within next 10 lines to be safe)
+            found_valid = False
+            found_test = False
+            for j in range(i+1, min(i+11, len(lines))):
                 eval_line = lines[j]
-                if 'Validation Set' in eval_line:
+                # Stop if we hit the closing separator line (after both metrics should be found)
+                if '='*60 in eval_line and j > i+3 and (found_valid and found_test):
+                    break
+                    
+                if 'Validation Set' in eval_line and '-' in eval_line and not found_valid:
                     if trial_info.get('task') == 'RGS':
-                        # Regression metrics
+                        # Regression metrics - match line with MSE, MAE, RMSE, Correlation
                         match = re.search(
-                            r'MSE: ([\d.]+), MAE: ([\d.]+), RMSE: ([\d.]+), Pearson Correlation: ([\d.]+)',
+                            r'Validation Set - MSE: ([\d.]+), MAE: ([\d.]+), RMSE: ([\d.]+), Pearson Correlation: ([\d.]+)',
                             eval_line
                         )
-                        if match and current_fold is not None:
+                        if match:
                             eval_metrics[current_fold]['valid'] = {
                                 'mse': float(match.group(1)),
                                 'mae': float(match.group(2)),
                                 'rmse': float(match.group(3)),
                                 'correlation': float(match.group(4))
                             }
+                            found_valid = True
                     else:
                         # Classification metrics
                         match = re.search(
-                            r'Accuracy: ([\d.]+), Precision: ([\d.]+), Recall: ([\d.]+), F1-Score: ([\d.]+)',
+                            r'Validation Set - Accuracy: ([\d.]+), Precision: ([\d.]+), Recall: ([\d.]+), F1-Score: ([\d.]+)',
                             eval_line
                         )
-                        if match and current_fold is not None:
+                        if match:
                             eval_metrics[current_fold]['valid'] = {
                                 'accuracy': float(match.group(1)),
                                 'precision': float(match.group(2)),
                                 'recall': float(match.group(3)),
                                 'f1': float(match.group(4))
                             }
+                            found_valid = True
                 
-                if 'Test Set' in eval_line:
+                if 'Test Set' in eval_line and '-' in eval_line and not found_test:
                     if trial_info.get('task') == 'RGS':
-                        # Regression metrics
+                        # Regression metrics - match line with MSE, MAE, RMSE, Correlation
                         match = re.search(
-                            r'MSE: ([\d.]+), MAE: ([\d.]+), RMSE: ([\d.]+), Pearson Correlation: ([\d.]+)',
+                            r'Test Set - MSE: ([\d.]+), MAE: ([\d.]+), RMSE: ([\d.]+), Pearson Correlation: ([\d.]+)',
                             eval_line
                         )
-                        if match and current_fold is not None:
+                        if match:
                             eval_metrics[current_fold]['test'] = {
                                 'mse': float(match.group(1)),
                                 'mae': float(match.group(2)),
                                 'rmse': float(match.group(3)),
                                 'correlation': float(match.group(4))
                             }
+                            found_test = True
                     else:
                         # Classification metrics
                         match = re.search(
-                            r'Accuracy: ([\d.]+), Precision: ([\d.]+), Recall: ([\d.]+), F1-Score: ([\d.]+)',
+                            r'Test Set - Accuracy: ([\d.]+), Precision: ([\d.]+), Recall: ([\d.]+), F1-Score: ([\d.]+)',
                             eval_line
                         )
-                        if match and current_fold is not None:
+                        if match:
                             eval_metrics[current_fold]['test'] = {
                                 'accuracy': float(match.group(1)),
                                 'precision': float(match.group(2)),
                                 'recall': float(match.group(3)),
                                 'f1': float(match.group(4))
                             }
+                            found_test = True
     
     # Extract CV summary
     cv_summary = {}
@@ -204,18 +217,25 @@ def plot_regression_metrics(eval_metrics, cv_summary, output_path, trial_num):
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle(f'Trial {trial_num} - Regression Performance Metrics', fontsize=16, fontweight='bold')
     
-    # Prepare data
+    # Prepare data - only include folds that have both valid and test metrics
     folds = sorted(eval_metrics.keys())
-    valid_mse = [eval_metrics[f]['valid']['mse'] for f in folds]
-    test_mse = [eval_metrics[f]['test']['mse'] for f in folds]
-    valid_mae = [eval_metrics[f]['valid']['mae'] for f in folds]
-    test_mae = [eval_metrics[f]['test']['mae'] for f in folds]
-    valid_rmse = [eval_metrics[f]['valid']['rmse'] for f in folds]
-    test_rmse = [eval_metrics[f]['test']['rmse'] for f in folds]
-    valid_corr = [eval_metrics[f]['valid']['correlation'] for f in folds]
-    test_corr = [eval_metrics[f]['test']['correlation'] for f in folds]
+    # Filter folds that have both valid and test metrics
+    complete_folds = [f for f in folds if 'valid' in eval_metrics[f] and 'test' in eval_metrics[f]]
     
-    x = np.arange(len(folds))
+    if not complete_folds:
+        print("Warning: No complete evaluation metrics found (missing valid or test data)")
+        return
+    
+    valid_mse = [eval_metrics[f]['valid']['mse'] for f in complete_folds]
+    test_mse = [eval_metrics[f]['test']['mse'] for f in complete_folds]
+    valid_mae = [eval_metrics[f]['valid']['mae'] for f in complete_folds]
+    test_mae = [eval_metrics[f]['test']['mae'] for f in complete_folds]
+    valid_rmse = [eval_metrics[f]['valid']['rmse'] for f in complete_folds]
+    test_rmse = [eval_metrics[f]['test']['rmse'] for f in complete_folds]
+    valid_corr = [eval_metrics[f]['valid']['correlation'] for f in complete_folds]
+    test_corr = [eval_metrics[f]['test']['correlation'] for f in complete_folds]
+    
+    x = np.arange(len(complete_folds))
     width = 0.35
     
     # MSE
@@ -226,7 +246,7 @@ def plot_regression_metrics(eval_metrics, cv_summary, output_path, trial_num):
     ax.set_ylabel('MSE', fontsize=11)
     ax.set_title('Mean Squared Error', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     
@@ -238,7 +258,7 @@ def plot_regression_metrics(eval_metrics, cv_summary, output_path, trial_num):
     ax.set_ylabel('MAE', fontsize=11)
     ax.set_title('Mean Absolute Error', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     
@@ -250,7 +270,7 @@ def plot_regression_metrics(eval_metrics, cv_summary, output_path, trial_num):
     ax.set_ylabel('RMSE', fontsize=11)
     ax.set_title('Root Mean Squared Error', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     
@@ -262,7 +282,7 @@ def plot_regression_metrics(eval_metrics, cv_summary, output_path, trial_num):
     ax.set_ylabel('Pearson Correlation', fontsize=11)
     ax.set_title('Pearson Correlation Coefficient', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_ylim([0, 1])
@@ -300,7 +320,7 @@ def plot_classification_metrics(eval_metrics, cv_summary, output_path, trial_num
     ax.set_ylabel('Accuracy', fontsize=11)
     ax.set_title('Accuracy', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_ylim([0, 1])
@@ -313,7 +333,7 @@ def plot_classification_metrics(eval_metrics, cv_summary, output_path, trial_num
     ax.set_ylabel('Precision', fontsize=11)
     ax.set_title('Precision', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_ylim([0, 1])
@@ -326,7 +346,7 @@ def plot_classification_metrics(eval_metrics, cv_summary, output_path, trial_num
     ax.set_ylabel('Recall', fontsize=11)
     ax.set_title('Recall', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_ylim([0, 1])
@@ -339,7 +359,7 @@ def plot_classification_metrics(eval_metrics, cv_summary, output_path, trial_num
     ax.set_ylabel('F1-Score', fontsize=11)
     ax.set_title('F1-Score', fontsize=12)
     ax.set_xticks(x)
-    ax.set_xticklabels([f'Fold {f}' for f in folds])
+    ax.set_xticklabels([f'Fold {f}' for f in complete_folds])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_ylim([0, 1])
@@ -543,7 +563,7 @@ def plot_cv_summary(cv_summary, output_path, trial_num, task):
 
 def main():
     # Log file path - modify this to change the log file
-    log_file = 'trial2_RGS_20251113_183338.log'
+    log_file = 'trial2_RGS_20251113_211446.log'
     output_dir_str = './logs'
     prefix = None  # Set to None for auto-detection, or specify custom prefix
     

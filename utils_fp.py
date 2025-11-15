@@ -1,0 +1,116 @@
+# Import APIs
+import numpy as np
+import tensorflow as tf
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
+import glob
+
+from scipy.io import loadmat
+
+class load_dataset_fp():
+    """
+    Dataset loader for FP1/FP2 forehead channels only
+    Uses data from Forehead_EEG folder instead of full 17-channel EEG
+    """
+    def __init__(self, trial, cv, type="de_LDS", reg_label=False):
+        self.trial = trial
+        self.cv = cv
+        self.type = type
+        self.reg_label = reg_label
+
+        self.basePath = "../SEED-VIG" # define the data path
+
+    def _find_file(self, directory, prefix):
+        """Find file starting with the given prefix in the directory"""
+        pattern = os.path.join(self.basePath, directory, "{}_*.mat".format(prefix))
+        files = sorted(glob.glob(pattern))
+        if not files:
+            raise FileNotFoundError("No file found matching pattern: {}".format(pattern))
+        return files[0]
+
+    def call(self):
+        # Load features from Forehead_EEG folder (4 channels, we use FP1 and FP2)
+        feature_folder = "Forehead_EEG/EEG_Feature_2Hz"
+        
+        feature_file = self._find_file(feature_folder, self.trial)
+        try:
+            feature = loadmat(feature_file, struct_as_record=False)[self.type]
+        except (OSError, KeyError):
+            try:
+                feature = loadmat(feature_file, struct_as_record=True)[self.type]
+            except Exception as e:
+                raise RuntimeError(f"Failed to load {feature_file}. Error: {e}")
+        
+        # Feature shape: (4, 885, 25) - 4 forehead channels
+        # Extract only FP1 (channel 0) and FP2 (channel 1)
+        feature = feature[[0, 1], :, :]  # Shape: (2, 885, 25)
+        
+        label_file = self._find_file("perclos_labels", self.trial)
+        try:
+            label = np.squeeze(loadmat(label_file, struct_as_record=False)["perclos"])
+        except (OSError, KeyError):
+            try:
+                label = np.squeeze(loadmat(label_file, struct_as_record=True)["perclos"])
+            except Exception as e:
+                raise RuntimeError(f"Failed to load {label_file}. Error: {e}")
+
+        # Create classification labels
+        temp = np.zeros(shape=label.shape, dtype=int)
+        for i in range(temp.shape[0]):
+            if label[i] < 0.35:
+                temp[i] = 0  # awake
+            elif 0.35 <= label[i] < 0.7:
+                temp[i] = 1  # tired
+            else:
+                temp[i] = 2  # drowsy
+
+        clfLabel = np.eye(3)[temp]  # one-hot encoding / (885,3)
+        feature = np.moveaxis(feature, 0, 1)  # feature.shape = (885, 2, 25)
+
+        # We use five fold cross validation
+        allIdx = np.random.RandomState(seed=970304).permutation(feature.shape[0])
+        amount = int(feature.shape[0] / 5)
+
+        testIdx = allIdx[self.cv * amount:(self.cv + 1) * amount]
+        trainIdx = np.setdiff1d(allIdx, testIdx)
+
+        amount = int(trainIdx.shape[0] / 5)
+        randIdx = np.random.RandomState(seed=970304 + self.cv).permutation(trainIdx.shape[0])
+
+        validIdx = trainIdx[randIdx[:amount]]
+        trainIdx = np.setdiff1d(trainIdx, validIdx)
+
+        trainFeature, validFeature, testFeature \
+            = feature[trainIdx, :, :], feature[validIdx, :, :], feature[testIdx, :, :]
+        trainLabel, validLabel, testLabel = clfLabel[trainIdx], clfLabel[validIdx], clfLabel[testIdx]
+        trainReglabel, validReglabel, testReglabel = label[trainIdx], label[validIdx], label[testIdx]
+
+        if self.reg_label == True:
+            trainLabel, validLabel, testLabel = trainReglabel, validReglabel, testReglabel
+            trainLabel, validLabel, testLabel \
+                = np.expand_dims(trainLabel, -1), np.expand_dims(validLabel,-1), np.expand_dims(testLabel, -1)
+
+        trainFeature, validFeature, testFeature \
+            = np.expand_dims(trainFeature, -1), np.expand_dims(validFeature, -1), np.expand_dims(testFeature, -1)
+
+        return trainFeature, trainLabel, validFeature, validLabel, testFeature, testLabel
+
+def classification_loss(y, y_pred):
+    return tf.keras.losses.binary_crossentropy(y, y_pred)
+
+def regression_loss(y, y_pred):
+    return tf.keras.losses.MSE(y, y_pred)
+
+def grad(model, inputs, labels, mode):
+    with tf.GradientTape() as tape:
+        y_hat = model(inputs)
+
+        if mode == "CLF":
+            loss = classification_loss(y=labels, y_pred=y_hat)
+        elif mode == "RGS":
+            loss = regression_loss(y=labels, y_pred=y_hat)
+
+    grad = tape.gradient(loss, model.trainable_variables)
+    return loss, grad
+

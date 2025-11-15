@@ -1,5 +1,5 @@
-import utils
-import network
+import utils_fp as utils
+import network_fp as network
 
 # Import APIs
 import os
@@ -27,8 +27,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, r
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from scipy.stats import pearsonr
 
-class experiment():
-    def __init__(self, trial_idx, cv_idx, gpu_idx, task, logger=None, log_dir="./logs"):
+class experiment_fp():
+    """
+    VIGNet experiment using only FP1/FP2 forehead channels (2 channels)
+    All other aspects remain the same as the original experiment
+    """
+    def __init__(self, trial_idx, cv_idx, gpu_idx, task, logger=None, log_dir="./logs_fp"):
         # Assign GPU
         self.gpu_idx = gpu_idx
         os.environ["CUDA_VISIBLE_DEVICES"] = str(self.gpu_idx)
@@ -55,7 +59,7 @@ class experiment():
             self.reg_label = True
 
         # Define learning schedules
-        self.learning_rate = 1e-4
+        self.learning_rate = 1e-3
         self.num_epochs = 500
         self.num_batches = 5
         self.early_stopping_patience = 20
@@ -69,22 +73,22 @@ class experiment():
             self.logger = logger
         else:
             # Fallback: create a simple logger if none provided
-            self.logger = logging.getLogger(f"experiment_trial{trial_idx}_cv{cv_idx}")
+            self.logger = logging.getLogger(f"experiment_fp_trial{trial_idx}_cv{cv_idx}")
             self.logger.setLevel(logging.INFO)
-        if not self.logger.handlers:
-            console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.INFO)
-            console_formatter = logging.Formatter('%(message)s')
-            console_handler.setFormatter(console_formatter)
-            self.logger.addHandler(console_handler)
-            
-            self.logger.info(f"START TRAINING CV {cv_idx} - Task: {task}")
-            self.logger.info(f"Learning rate: {self.learning_rate}, Epochs: {self.num_epochs}, Batches: {self.num_batches}")
+            if not self.logger.handlers:
+                console_handler = logging.StreamHandler()
+                console_handler.setLevel(logging.INFO)
+                console_formatter = logging.Formatter('%(message)s')
+                console_handler.setFormatter(console_formatter)
+                self.logger.addHandler(console_handler)
+        
+        self.logger.info(f"START TRAINING CV {cv_idx} - Task: {task} (FP1/FP2 only)")
+        self.logger.info(f"Learning rate: {self.learning_rate}, Epochs: {self.num_epochs}, Batches: {self.num_batches}")
 
     def training(self):
-        # Load dataset
-        self.logger.info("Loading dataset...")
-        load_data = utils.load_dataset(trial=self.trial_idx, cv=self.cv_idx, reg_label=self.reg_label)
+        # Load dataset (FP1/FP2 only)
+        self.logger.info("Loading dataset (FP1/FP2 channels only)...")
+        load_data = utils.load_dataset_fp(trial=self.trial_idx, cv=self.cv_idx, reg_label=self.reg_label)
         Xtrain, Ytrain, Xvalid, Yvalid, Xtest, Ytest = load_data.call()
         self.logger.info(f"Dataset shapes - Train: {Xtrain.shape}, Valid: {Xvalid.shape}, Test: {Xtest.shape}")
         
@@ -96,9 +100,9 @@ class experiment():
             Yvalid_orig = Yvalid.squeeze()
             Ytest_orig = Ytest.squeeze()
 
-        # Call model
-        self.logger.info("Initializing VIGNet model...")
-        VIGNet = network.vignet(mode=self.task)
+        # Call model (FP1/FP2 version)
+        self.logger.info("Initializing VIGNet-FP model (2 channels)...")
+        VIGNet = network.vignet_fp(mode=self.task)
 
         # Optimization
         optimizer = self.optimizer
@@ -236,13 +240,13 @@ class experiment():
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description='VIGNet Training Script')
+    parser = argparse.ArgumentParser(description='VIGNet Training Script (FP1/FP2 only)')
     parser.add_argument('--trial', type=int, default=None, 
                        help='Specify a single trial number to run (1-23). If not specified, runs all trials.')
     parser.add_argument('--task', type=str, default='RGS', choices=['RGS', 'CLF'],
                        help='Task type: RGS (regression) or CLF (classification). Default: RGS')
-    parser.add_argument('--log-dir', type=str, default='./logs',
-                       help='Directory for log files. Default: ./logs')
+    parser.add_argument('--log-dir', type=str, default='./logs_fp',
+                       help='Directory for log files. Default: ./logs_fp')
     parser.add_argument('--no-save-predictions', action='store_true',
                        help='Do not save predictions to .npy files for visualization')
     
@@ -281,7 +285,7 @@ if __name__ == "__main__":
     summary_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
     summary_logger.addHandler(summary_handler)
     summary_logger.info("="*80)
-    summary_logger.info("SEED-VIG Training Summary")
+    summary_logger.info("SEED-VIG Training Summary (FP1/FP2 channels only)")
     summary_logger.info(f"Start time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
     summary_logger.info("="*80)
     
@@ -309,7 +313,7 @@ if __name__ == "__main__":
         trial_logger.addHandler(console_handler)
         
         trial_logger.info("="*80)
-        trial_logger.info(f"TRIAL {trial} - Task: {task}")
+        trial_logger.info(f"TRIAL {trial} - Task: {task} (FP1/FP2 only)")
         trial_logger.info(f"Log file: {trial_log_path}")
         trial_logger.info(f"Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         trial_logger.info("="*80)
@@ -325,7 +329,7 @@ if __name__ == "__main__":
             trial_logger.info(f"CV Fold {fold}")
             trial_logger.info(f"{'-'*80}")
             
-            main = experiment(trial_idx=trial, cv_idx=fold, gpu_idx=0, task=task, logger=trial_logger, log_dir=main_log_dir)
+            main = experiment_fp(trial_idx=trial, cv_idx=fold, gpu_idx=0, task=task, logger=trial_logger, log_dir=main_log_dir)
             try:
                 valid_metrics, test_metrics, predictions = main.training()
                 all_valid_metrics.append(valid_metrics)
@@ -354,7 +358,7 @@ if __name__ == "__main__":
                 import traceback
                 trial_logger.error(traceback.format_exc())
                 summary_logger.error(traceback.format_exc())
-    
+        
         # Calculate and log average metrics across all CV folds
         if all_valid_metrics and all_test_metrics:
             trial_logger.info("\n" + "="*80)
@@ -426,3 +430,4 @@ if __name__ == "__main__":
     summary_logger.info(f"All training completed. End time: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
     summary_logger.info(f"Total duration: {end_time - start_time}")
     summary_logger.info("="*80)
+

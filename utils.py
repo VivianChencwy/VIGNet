@@ -146,7 +146,7 @@ def grad(model, inputs, labels, mode):
         if mode == "CLF":
             loss = classification_loss(y=labels, y_pred=y_hat)
         elif mode == "RGS":
-            loss = classification_loss(y=labels, y_pred=y_hat)
+            loss = regression_loss(y=labels, y_pred=y_hat)
 
     grad = tape.gradient(loss, model.trainable_variables)
     return loss, grad
