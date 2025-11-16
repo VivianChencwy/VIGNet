@@ -1,0 +1,27 @@
+2025-11-15 17:28:07,229 - INFO - ================================================================================
+2025-11-15 17:28:07,229 - INFO - TRIAL 1 - Task: RGS (FP1/FP2 only)
+2025-11-15 17:28:07,229 - INFO - Log file: ./logs_fp/trial1_RGS_20251115_172807.log
+2025-11-15 17:28:07,229 - INFO - Start time: 2025-11-15 17:28:07
+2025-11-15 17:28:07,229 - INFO - ================================================================================
+2025-11-15 17:28:07,229 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-15 17:28:07,229 - INFO - CV Fold 0
+2025-11-15 17:28:07,229 - INFO - --------------------------------------------------------------------------------
+2025-11-15 17:28:07,615 - INFO - START TRAINING CV 0 - Task: RGS (FP1/FP2 only)
+2025-11-15 17:28:07,615 - INFO - Learning rate: 0.001, Epochs: 500, Batches: 5
+2025-11-15 17:28:07,615 - INFO - Loading dataset (FP1/FP2 channels only)...
+2025-11-15 17:28:07,627 - INFO - Dataset shapes - Train: (567, 2, 25, 1), Valid: (141, 2, 25, 1), Test: (177, 2, 25, 1)
+2025-11-15 17:28:07,628 - INFO - Initializing VIGNet-FP model (2 channels)...
+2025-11-15 17:28:07,633 - INFO - Number of batch iterations per epoch: 113
+2025-11-15 17:28:15,671 - INFO - Epoch: 1, Training Loss: 0.2006, Validation Loss: 0.0792
+2025-11-15 17:28:15,672 - INFO -   → New best validation loss: 0.0792
+2025-11-15 17:28:26,929 - INFO - Epoch: 2, Training Loss: 0.0922, Validation Loss: 0.0797
+2025-11-15 17:28:38,755 - INFO - Epoch: 3, Training Loss: 0.0866, Validation Loss: 0.0839
+2025-11-15 17:28:50,621 - INFO - Epoch: 4, Training Loss: 0.0843, Validation Loss: 0.0809
+2025-11-15 17:29:02,523 - INFO - Epoch: 5, Training Loss: 0.0842, Validation Loss: 0.0861
+2025-11-15 17:29:12,175 - INFO - Epoch: 6, Training Loss: 0.0863, Validation Loss: 0.0814
+2025-11-15 17:29:22,303 - INFO - Epoch: 7, Training Loss: 0.0831, Validation Loss: 0.0817
+2025-11-15 17:29:35,644 - INFO - Epoch: 8, Training Loss: 0.0843, Validation Loss: 0.0840
+2025-11-15 17:29:47,432 - INFO - Epoch: 9, Training Loss: 0.0839, Validation Loss: 0.0865
+2025-11-15 17:29:57,787 - INFO - Epoch: 10, Training Loss: 0.0849, Validation Loss: 0.0788
+2025-11-15 17:29:57,788 - INFO -   → New best validation loss: 0.0788

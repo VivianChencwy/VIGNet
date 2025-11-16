@@ -139,6 +139,7 @@ def classification_loss(y, y_pred):
 def regression_loss(y, y_pred):
     return tf.keras.losses.MSE(y, y_pred)
 
+@tf.function
 def grad(model, inputs, labels, mode):
     with tf.GradientTape() as tape:
         y_hat = model(inputs)

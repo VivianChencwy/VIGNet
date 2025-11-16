@@ -563,18 +563,18 @@ def plot_cv_summary(cv_summary, output_path, trial_num, task):
 
 def main():
     # Log file path - modify this to change the log file
-    log_file = 'trial2_RGS_20251113_211446.log'
-    output_dir_str = './logs'
+    log_file = 'trial2_RGS_20251115_131345.log'
+    output_dir_str = './logs_fp'
     prefix = None  # Set to None for auto-detection, or specify custom prefix
     
     # Parse log file
     log_path = Path(log_file)
     if not log_path.exists():
         # Try relative to logs directory
-        log_path = Path('./logs') / log_file
+        log_path = Path('./logs_fp') / log_file
         if not log_path.exists():
             print(f"Error: Log file not found: {log_file}")
-            print(f"Tried: {log_file} and ./logs/{log_file}")
+            print(f"Tried: {log_file} and ./logs_fp/{log_file}")
             return
     
     print(f"Parsing log file: {log_path}")

@@ -92,7 +92,15 @@ class experiment_fp():
         Xtrain, Ytrain, Xvalid, Yvalid, Xtest, Ytest = load_data.call()
         self.logger.info(f"Dataset shapes - Train: {Xtrain.shape}, Valid: {Xvalid.shape}, Test: {Xtest.shape}")
         
-        # Store original labels for evaluation
+        # Convert to Tensor for better GPU utilization (optimize data transfer)
+        Xtrain = tf.constant(Xtrain, dtype=tf.float64)
+        Ytrain = tf.constant(Ytrain, dtype=tf.float64)
+        Xvalid = tf.constant(Xvalid, dtype=tf.float64)
+        Yvalid_tf = tf.constant(Yvalid, dtype=tf.float64)
+        Xtest = tf.constant(Xtest, dtype=tf.float64)
+        Ytest_tf = tf.constant(Ytest, dtype=tf.float64)
+        
+        # Store original labels for evaluation (keep as numpy for metrics)
         if not self.reg_label:
             Yvalid_orig = np.argmax(Yvalid, axis=-1)
             Ytest_orig = np.argmax(Ytest, axis=-1)
@@ -114,32 +122,38 @@ class experiment_fp():
         patience_counter = 0
         best_weights = None
         
+        # Set random seed for reproducibility (required when determinism is enabled)
+        random_seed = self.trial_idx * 100 + self.cv_idx
+        
         for epoch in range(self.num_epochs):
             loss_per_epoch = 0
-            # Randomize the training dataset
-            rand_idx = np.random.permutation(Xtrain.shape[0])
-            Xtrain, Ytrain = Xtrain[rand_idx, :, :, :], Ytrain[rand_idx, :]
+            # Randomize the training dataset (using TensorFlow operations for better GPU utilization)
+            tf.random.set_seed(random_seed + epoch)
+            rand_idx = tf.random.shuffle(tf.range(tf.shape(Xtrain)[0]))
+            Xtrain_shuffled = tf.gather(Xtrain, rand_idx)
+            Ytrain_shuffled = tf.gather(Ytrain, rand_idx)
 
             for batch in range(num_batch_iter):
-                # Sample minibatch
-                x = Xtrain[batch * self.num_batches:(batch + 1) * self.num_batches, :, :, :]
-                y = Ytrain[batch * self.num_batches:(batch + 1) * self.num_batches, :]
+                # Sample minibatch (already on GPU as Tensor)
+                x = Xtrain_shuffled[batch * self.num_batches:(batch + 1) * self.num_batches, :, :, :]
+                y = Ytrain_shuffled[batch * self.num_batches:(batch + 1) * self.num_batches, :]
 
                 # Estimate loss
                 loss, grads = utils.grad(model=VIGNet, inputs=x, labels=y, mode=self.task)
 
                 # Update the network
                 optimizer.apply_gradients(zip(grads, VIGNet.trainable_variables))
-                loss_per_epoch += np.mean(loss)
+                loss_per_epoch += tf.reduce_mean(loss).numpy()
 
             avg_loss = loss_per_epoch/num_batch_iter
             
             # Evaluate on validation set for early stopping
             Yvalid_pred_temp = VIGNet(Xvalid, training=False)
             if self.reg_label:
-                val_loss = np.mean((Yvalid_orig - Yvalid_pred_temp.numpy().squeeze()) ** 2)
+                Yvalid_orig_tf = tf.constant(Yvalid_orig, dtype=tf.float64)
+                val_loss = tf.reduce_mean((Yvalid_orig_tf - tf.squeeze(Yvalid_pred_temp)) ** 2).numpy()
             else:
-                val_loss = np.mean(tf.keras.losses.binary_crossentropy(Yvalid, Yvalid_pred_temp))
+                val_loss = tf.reduce_mean(tf.keras.losses.binary_crossentropy(Yvalid_tf, Yvalid_pred_temp)).numpy()
             
             self.logger.info("Epoch: {}, Training Loss: {:0.4f}, Validation Loss: {:0.4f}".format(
                 epoch + 1, avg_loss, val_loss))

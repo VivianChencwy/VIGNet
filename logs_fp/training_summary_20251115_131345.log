@@ -1,0 +1,20 @@
+2025-11-15 13:13:45,158 - ================================================================================
+2025-11-15 13:13:45,158 - SEED-VIG Training Summary (FP1/FP2 channels only)
+2025-11-15 13:13:45,158 - Start time: 2025-11-15 13:13:45
+2025-11-15 13:13:45,158 - ================================================================================
+2025-11-15 13:13:45,158 - Starting Trial 1
+2025-11-15 13:30:44,403 -   Trial 1 CV 0 completed successfully
+2025-11-15 14:06:26,664 -   Trial 1 CV 1 completed successfully
+2025-11-15 14:24:12,148 -   Trial 1 CV 2 completed successfully
+2025-11-15 14:45:39,189 -   Trial 1 CV 3 completed successfully
+2025-11-15 15:14:16,701 -   Trial 1 CV 4 completed successfully
+2025-11-15 15:14:16,701 - Trial 1 - Test MSE: 0.011519, Test Correlation: 0.931721
+2025-11-15 15:14:16,701 - Starting Trial 2
+2025-11-15 15:18:32,942 -   Trial 2 CV 0 completed successfully
+2025-11-15 15:22:57,011 -   Trial 2 CV 1 completed successfully
+2025-11-15 15:42:17,928 -   Trial 2 CV 2 completed successfully
+2025-11-15 16:14:21,320 -   Trial 2 CV 3 completed successfully
+2025-11-15 16:53:38,386 -   Trial 2 CV 4 completed successfully
+2025-11-15 16:53:38,387 - Trial 2 - Test MSE: 0.023913, Test Correlation: 0.307613
+2025-11-15 16:53:38,387 - Starting Trial 3
+2025-11-15 17:14:15,025 -   Trial 3 CV 0 completed successfully
