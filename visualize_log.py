@@ -26,9 +26,10 @@ def parse_log_file(log_path):
                 trial_info['task'] = match.group(2)
                 break
     
-    # Extract training losses for each CV fold
+    # Extract training losses for each CV fold (or single run if no CV)
     training_losses = defaultdict(list)
     current_fold = None
+    has_cv = False
     
     # Extract evaluation metrics for each CV fold
     eval_metrics = defaultdict(dict)
@@ -36,10 +37,19 @@ def parse_log_file(log_path):
     for i, line in enumerate(lines):
         # Detect CV fold start
         if 'CV Fold' in line:
+            has_cv = True
             match = re.search(r'CV Fold (\d+)', line)
             if match:
                 current_fold = int(match.group(1))
                 # Initialize dict for this fold
+                if current_fold not in eval_metrics:
+                    eval_metrics[current_fold] = {}
+        
+        # If no CV detected yet, check if we should use fold 0 for single run
+        if not has_cv and current_fold is None:
+            # Check if this is a single run (no CV) by looking for START TRAINING
+            if 'START TRAINING' in line:
+                current_fold = 0
                 if current_fold not in eval_metrics:
                     eval_metrics[current_fold] = {}
         
@@ -191,18 +201,23 @@ def parse_log_file(log_path):
 
 
 def plot_training_curves(training_losses, output_path, trial_num):
-    """Plot training loss curves for all CV folds."""
+    """Plot training loss curves for all CV folds (or single run if no CV)."""
     fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Determine if this is CV format (multiple folds) or single run
+    is_cv = len(training_losses) > 1 or (len(training_losses) == 1 and list(training_losses.keys())[0] != 0)
     
     for fold, losses in sorted(training_losses.items()):
         epochs = [e for e, _ in losses]
         losses_values = [l for _, l in losses]
-        ax.plot(epochs, losses_values, label=f'CV Fold {fold}', alpha=0.7, linewidth=1.5)
+        label = f'CV Fold {fold}' if is_cv else 'Training Loss'
+        ax.plot(epochs, losses_values, label=label, alpha=0.7, linewidth=1.5)
     
     ax.set_xlabel('Epoch', fontsize=12)
     ax.set_ylabel('Training Loss', fontsize=12)
     ax.set_title(f'Trial {trial_num} - Training Loss Curves', fontsize=14, fontweight='bold')
-    ax.legend(loc='best', fontsize=10)
+    if len(training_losses) > 1 or is_cv:
+        ax.legend(loc='best', fontsize=10)
     ax.grid(True, alpha=0.3)
     ax.set_xlim(left=1)
     
@@ -371,37 +386,56 @@ def plot_classification_metrics(eval_metrics, cv_summary, output_path, trial_num
 
 
 def plot_regression_visualization(predictions_dir, output_path, trial_num):
-    """Plot regression curves and residual plots for all CV folds."""
+    """Plot regression curves and residual plots for all CV folds (or single run if no CV)."""
     predictions_dir = Path(predictions_dir)
     
     # Collect all predictions
     test_predictions = {}
     valid_predictions = {}
     
-    for pred_file in sorted(predictions_dir.glob(f"trial{trial_num}_cv*_*.npy")):
-        data = np.load(pred_file, allow_pickle=True).item()
-        cv = data['cv']
-        set_name = data['set']
+    # Try CV format first (trial{N}_cv{F}_*.npy)
+    cv_files = list(predictions_dir.glob(f"trial{trial_num}_cv*_*.npy"))
+    is_cv = len(cv_files) > 0
+    
+    if is_cv:
+        # CV format: trial{N}_cv{F}_validation.npy or trial{N}_cv{F}_test.npy
+        for pred_file in sorted(cv_files):
+            data = np.load(pred_file, allow_pickle=True).item()
+            cv = data['cv']
+            set_name = data['set']
+            
+            if set_name == 'test':
+                test_predictions[cv] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
+            elif set_name == 'validation':
+                valid_predictions[cv] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
+    else:
+        # No CV format: trial{N}_validation.npy or trial{N}_test.npy
+        test_file = predictions_dir / f"trial{trial_num}_test.npy"
+        valid_file = predictions_dir / f"trial{trial_num}_validation.npy"
         
-        if set_name == 'test':
-            test_predictions[cv] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
-        elif set_name == 'validation':
-            valid_predictions[cv] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
+        if test_file.exists():
+            data = np.load(test_file, allow_pickle=True).item()
+            test_predictions[0] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
+        
+        if valid_file.exists():
+            data = np.load(valid_file, allow_pickle=True).item()
+            valid_predictions[0] = {'y_true': data['y_true'], 'y_pred': data['y_pred']}
     
     if not test_predictions:
         print(f"Warning: No prediction files found in {predictions_dir}")
         return
     
-    # Create figure with subplots: regression plots and residual plots
-    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
-    fig.suptitle(f'Trial {trial_num} - Regression Visualization', fontsize=16, fontweight='bold')
+    # Create figure with subplots: only test set regression and residual plots
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig.suptitle(f'Trial {trial_num} - Test Set Regression Visualization', fontsize=16, fontweight='bold')
     
     # Test set regression plot (predicted vs actual)
-    ax = axes[0, 0]
+    ax = axes[0]
     for cv in sorted(test_predictions.keys()):
         y_true = test_predictions[cv]['y_true']
         y_pred = test_predictions[cv]['y_pred']
-        ax.scatter(y_true, y_pred, alpha=0.5, s=20, label=f'CV Fold {cv}')
+        label = f'CV Fold {cv}' if is_cv else 'Single Run'
+        ax.scatter(y_true, y_pred, alpha=0.5, s=20, label=label)
     
     # Add perfect prediction line (y=x)
     min_val = min([min(test_predictions[cv]['y_true']) for cv in test_predictions])
@@ -416,12 +450,13 @@ def plot_regression_visualization(predictions_dir, output_path, trial_num):
     ax.set_aspect('equal', adjustable='box')
     
     # Test set residual plot
-    ax = axes[0, 1]
+    ax = axes[1]
     for cv in sorted(test_predictions.keys()):
         y_true = test_predictions[cv]['y_true']
         y_pred = test_predictions[cv]['y_pred']
         residuals = y_true - y_pred
-        ax.scatter(y_pred, residuals, alpha=0.5, s=20, label=f'CV Fold {cv}')
+        label = f'CV Fold {cv}' if is_cv else 'Single Run'
+        ax.scatter(y_pred, residuals, alpha=0.5, s=20, label=label)
     
     # Add zero residual line
     ax.axhline(y=0, color='r', linestyle='--', linewidth=2)
@@ -430,43 +465,6 @@ def plot_regression_visualization(predictions_dir, output_path, trial_num):
     ax.set_title('Test Set - Residual Plot', fontsize=13, fontweight='bold')
     ax.legend(loc='best', fontsize=9)
     ax.grid(True, alpha=0.3)
-    
-    # Validation set regression plot
-    if valid_predictions:
-        ax = axes[1, 0]
-        for cv in sorted(valid_predictions.keys()):
-            y_true = valid_predictions[cv]['y_true']
-            y_pred = valid_predictions[cv]['y_pred']
-            ax.scatter(y_true, y_pred, alpha=0.5, s=20, label=f'CV Fold {cv}')
-        
-        min_val = min([min(valid_predictions[cv]['y_true']) for cv in valid_predictions])
-        max_val = max([max(valid_predictions[cv]['y_true']) for cv in valid_predictions])
-        ax.plot([min_val, max_val], [min_val, max_val], 'r--', linewidth=2, label='Perfect Prediction (y=x)')
-        
-        ax.set_xlabel('Actual Values', fontsize=12)
-        ax.set_ylabel('Predicted Values', fontsize=12)
-        ax.set_title('Validation Set - Predicted vs Actual', fontsize=13, fontweight='bold')
-        ax.legend(loc='best', fontsize=9)
-        ax.grid(True, alpha=0.3)
-        ax.set_aspect('equal', adjustable='box')
-        
-        # Validation set residual plot
-        ax = axes[1, 1]
-        for cv in sorted(valid_predictions.keys()):
-            y_true = valid_predictions[cv]['y_true']
-            y_pred = valid_predictions[cv]['y_pred']
-            residuals = y_true - y_pred
-            ax.scatter(y_pred, residuals, alpha=0.5, s=20, label=f'CV Fold {cv}')
-        
-        ax.axhline(y=0, color='r', linestyle='--', linewidth=2)
-        ax.set_xlabel('Predicted Values', fontsize=12)
-        ax.set_ylabel('Residuals (Actual - Predicted)', fontsize=12)
-        ax.set_title('Validation Set - Residual Plot', fontsize=13, fontweight='bold')
-        ax.legend(loc='best', fontsize=9)
-        ax.grid(True, alpha=0.3)
-    else:
-        axes[1, 0].axis('off')
-        axes[1, 1].axis('off')
     
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
@@ -563,18 +561,18 @@ def plot_cv_summary(cv_summary, output_path, trial_num, task):
 
 def main():
     # Log file path - modify this to change the log file
-    log_file = 'trial2_RGS_20251115_131345.log'
-    output_dir_str = './logs_fp'
+    log_file = 'trial3_RGS_20251116_152357.log'
+    output_dir_str = './logs_fp_f21_25'
     prefix = None  # Set to None for auto-detection, or specify custom prefix
     
     # Parse log file
     log_path = Path(log_file)
     if not log_path.exists():
         # Try relative to logs directory
-        log_path = Path('./logs_fp') / log_file
+        log_path = Path('./logs_fp_f21_25') / log_file
         if not log_path.exists():
             print(f"Error: Log file not found: {log_file}")
-            print(f"Tried: {log_file} and ./logs_fp/{log_file}")
+            print(f"Tried: {log_file} and ./logs_fp_f21_25/{log_file}")
             return
     
     print(f"Parsing log file: {log_path}")

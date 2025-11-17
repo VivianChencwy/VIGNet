@@ -1,0 +1,68 @@
+2025-11-16 15:15:46,920 - INFO - ================================================================================
+2025-11-16 15:15:46,920 - INFO - TRIAL 1 - Task: RGS (FP1/FP2 only, no CV)
+2025-11-16 15:15:46,920 - INFO - Log file: ./logs_fp_no_cv/trial1_RGS_20251116_151546.log
+2025-11-16 15:15:46,920 - INFO - Start time: 2025-11-16 15:15:46
+2025-11-16 15:15:46,920 - INFO - ================================================================================
+2025-11-16 15:15:47,357 - INFO - START TRAINING - Task: RGS (FP1/FP2 only, no CV)
+2025-11-16 15:15:47,357 - INFO - Learning rate: 0.005, Epochs: 500, Batches: 8
+2025-11-16 15:15:47,357 - INFO - Data split: 70% train / 15% validation / 15% test
+2025-11-16 15:15:47,357 - INFO - Loading dataset (FP1/FP2 channels only, fixed split)...
+2025-11-16 15:15:47,368 - INFO - Dataset shapes - Train: (619, 2, 25, 1), Valid: (132, 2, 25, 1), Test: (134, 2, 25, 1)
+2025-11-16 15:15:47,370 - INFO - Initializing VIGNet-FP model (2 channels)...
+2025-11-16 15:15:47,407 - INFO - Number of batch iterations per epoch: 77
+2025-11-16 15:15:58,528 - INFO - Epoch: 1, Training Loss: 0.1298, Validation Loss: 0.0837
+2025-11-16 15:15:58,529 - INFO -   → New best validation loss: 0.0837
+2025-11-16 15:16:06,889 - INFO - Epoch: 2, Training Loss: 0.0902, Validation Loss: 0.1024
+2025-11-16 15:16:15,369 - INFO - Epoch: 3, Training Loss: 0.0911, Validation Loss: 0.0876
+2025-11-16 15:16:25,031 - INFO - Epoch: 4, Training Loss: 0.0869, Validation Loss: 0.0854
+2025-11-16 15:16:31,873 - INFO - Epoch: 5, Training Loss: 0.0866, Validation Loss: 0.0856
+2025-11-16 15:16:42,744 - INFO - Epoch: 6, Training Loss: 0.0871, Validation Loss: 0.0828
+2025-11-16 15:16:42,745 - INFO -   → New best validation loss: 0.0828
+2025-11-16 15:16:52,009 - INFO - Epoch: 7, Training Loss: 0.0861, Validation Loss: 0.0827
+2025-11-16 15:16:52,013 - INFO -   → New best validation loss: 0.0827
+2025-11-16 15:17:01,816 - INFO - Epoch: 8, Training Loss: 0.0854, Validation Loss: 0.0824
+2025-11-16 15:17:01,816 - INFO -   → New best validation loss: 0.0824
+2025-11-16 15:17:11,988 - INFO - Epoch: 9, Training Loss: 0.0874, Validation Loss: 0.0862
+2025-11-16 15:17:19,553 - INFO - Epoch: 10, Training Loss: 0.0889, Validation Loss: 0.0823
+2025-11-16 15:17:19,553 - INFO -   → New best validation loss: 0.0823
+2025-11-16 15:17:28,670 - INFO - Epoch: 11, Training Loss: 0.0881, Validation Loss: 0.0825
+2025-11-16 15:17:38,626 - INFO - Epoch: 12, Training Loss: 0.0878, Validation Loss: 0.0842
+2025-11-16 15:17:47,906 - INFO - Epoch: 13, Training Loss: 0.0866, Validation Loss: 0.0826
+2025-11-16 15:17:54,576 - INFO - Epoch: 14, Training Loss: 0.0858, Validation Loss: 0.0879
+2025-11-16 15:18:05,144 - INFO - Epoch: 15, Training Loss: 0.0872, Validation Loss: 0.0832
+2025-11-16 15:18:14,275 - INFO - Epoch: 16, Training Loss: 0.0892, Validation Loss: 0.0820
+2025-11-16 15:18:14,275 - INFO -   → New best validation loss: 0.0820
+2025-11-16 15:18:24,831 - INFO - Epoch: 17, Training Loss: 0.0860, Validation Loss: 0.0817
+2025-11-16 15:18:24,832 - INFO -   → New best validation loss: 0.0817
+2025-11-16 15:18:34,426 - INFO - Epoch: 18, Training Loss: 0.0839, Validation Loss: 0.0865
+2025-11-16 15:18:43,504 - INFO - Epoch: 19, Training Loss: 0.0858, Validation Loss: 0.1040
+2025-11-16 15:18:53,996 - INFO - Epoch: 20, Training Loss: 0.0858, Validation Loss: 0.0829
+2025-11-16 15:19:02,206 - INFO - Epoch: 21, Training Loss: 0.0863, Validation Loss: 0.0990
+2025-11-16 15:19:08,925 - INFO - Epoch: 22, Training Loss: 0.0850, Validation Loss: 0.0830
+2025-11-16 15:19:19,158 - INFO - Epoch: 23, Training Loss: 0.0823, Validation Loss: 0.1022
+2025-11-16 15:19:26,704 - INFO - Epoch: 24, Training Loss: 0.0833, Validation Loss: 0.0641
+2025-11-16 15:19:26,705 - INFO -   → New best validation loss: 0.0641
+2025-11-16 15:19:35,843 - INFO - Epoch: 25, Training Loss: 0.0855, Validation Loss: 0.0807
+2025-11-16 15:19:42,378 - INFO - Epoch: 26, Training Loss: 0.1210, Validation Loss: 0.0876
+2025-11-16 15:19:52,197 - INFO - Epoch: 27, Training Loss: 0.0913, Validation Loss: 0.0827
+2025-11-16 15:20:00,780 - INFO - Epoch: 28, Training Loss: 0.0860, Validation Loss: 0.0828
+2025-11-16 15:20:10,962 - INFO - Epoch: 29, Training Loss: 0.0877, Validation Loss: 0.0830
+2025-11-16 15:20:19,149 - INFO - Epoch: 30, Training Loss: 0.0855, Validation Loss: 0.0809
+2025-11-16 15:20:29,625 - INFO - Epoch: 31, Training Loss: 0.0854, Validation Loss: 0.0827
+2025-11-16 15:20:41,193 - INFO - Epoch: 32, Training Loss: 0.0822, Validation Loss: 0.0823
+2025-11-16 15:20:50,868 - INFO - Epoch: 33, Training Loss: 0.0788, Validation Loss: 0.0682
+2025-11-16 15:20:59,629 - INFO - Epoch: 34, Training Loss: 0.0757, Validation Loss: 0.0563
+2025-11-16 15:20:59,629 - INFO -   → New best validation loss: 0.0563
+2025-11-16 15:21:06,849 - INFO - Epoch: 35, Training Loss: 0.0803, Validation Loss: 0.0669
+2025-11-16 15:21:15,941 - INFO - Epoch: 36, Training Loss: 0.0880, Validation Loss: 0.0740
+2025-11-16 15:21:25,690 - INFO - Epoch: 37, Training Loss: 0.0831, Validation Loss: 0.0772
+2025-11-16 15:21:33,754 - INFO - Epoch: 38, Training Loss: 0.0777, Validation Loss: 0.0748
+2025-11-16 15:21:43,551 - INFO - Epoch: 39, Training Loss: 0.0708, Validation Loss: 0.0938
+2025-11-16 15:21:50,882 - INFO - Epoch: 40, Training Loss: 0.0754, Validation Loss: 0.0462
+2025-11-16 15:21:50,883 - INFO -   → New best validation loss: 0.0462
+2025-11-16 15:22:00,500 - INFO - Epoch: 41, Training Loss: 0.0627, Validation Loss: 0.0439
+2025-11-16 15:22:00,504 - INFO -   → New best validation loss: 0.0439
+2025-11-16 15:22:08,257 - INFO - Epoch: 42, Training Loss: 0.0460, Validation Loss: 0.0522
+2025-11-16 15:22:14,740 - INFO - Epoch: 43, Training Loss: 0.0376, Validation Loss: 0.0164
+2025-11-16 15:22:14,740 - INFO -   → New best validation loss: 0.0164
+2025-11-16 15:22:26,682 - INFO - Epoch: 44, Training Loss: 0.0277, Validation Loss: 0.0230

@@ -1,0 +1,19 @@
+2025-11-16 15:23:57,726 - ================================================================================
+2025-11-16 15:23:57,726 - SEED-VIG Training Summary (FP1/FP2 channels only, de_LDS_f21-25, no CV)
+2025-11-16 15:23:57,726 - Start time: 2025-11-16 15:23:57
+2025-11-16 15:23:57,726 - Features: de_LDS_f21-25 (41Hz, 43Hz, 45Hz, 47Hz, 49Hz)
+2025-11-16 15:23:57,726 - Data split: 70% train / 15% validation / 15% test
+2025-11-16 15:23:57,726 - ================================================================================
+2025-11-16 15:23:57,726 - Starting Trial 1
+2025-11-16 15:59:26,628 -   Trial 1 completed successfully
+2025-11-16 15:59:26,628 -   Trial 1 - Test MSE: 0.009271, Test RMSE: 0.096287, Test Correlation: 0.940335
+2025-11-16 15:59:26,629 - Starting Trial 2
+2025-11-16 16:16:19,220 -   Trial 2 completed successfully
+2025-11-16 16:16:19,220 -   Trial 2 - Test MSE: 0.032239, Test RMSE: 0.179552, Test Correlation: 0.028353
+2025-11-16 16:16:19,220 - Starting Trial 3
+2025-11-16 16:50:44,122 -   Trial 3 completed successfully
+2025-11-16 16:50:44,122 -   Trial 3 - Test MSE: 0.013275, Test RMSE: 0.115218, Test Correlation: 0.689005
+2025-11-16 16:50:44,122 - Starting Trial 4
+2025-11-16 17:39:41,576 -   Trial 4 completed successfully
+2025-11-16 17:39:41,576 -   Trial 4 - Test MSE: 0.032524, Test RMSE: 0.180344, Test Correlation: 0.715154
+2025-11-16 17:39:41,576 - Starting Trial 5
