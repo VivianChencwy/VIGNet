@@ -121,6 +121,44 @@ class load_dataset_fp_no_cv():
             raise FileNotFoundError("No file found matching pattern: {}".format(pattern))
         return files[0]
 
+    def _stratified_split_regression(self, features, labels, train_ratio, val_ratio, random_seed):
+        """Stratified split for regression by binning labels"""
+        n_samples = features.shape[0]
+        n_bins = 5  # Split PERCLOS into 5 bins
+        
+        # Create bins for stratification
+        bin_edges = np.linspace(labels.min(), labels.max() + 0.001, n_bins + 1)
+        bin_indices = np.digitize(labels, bin_edges) - 1
+        bin_indices = np.clip(bin_indices, 0, n_bins - 1)
+        
+        train_idx, val_idx, test_idx = [], [], []
+        
+        # Stratified sampling per bin
+        for bin_id in range(n_bins):
+            bin_mask = (bin_indices == bin_id)
+            bin_samples = np.where(bin_mask)[0]
+            
+            if len(bin_samples) == 0:
+                continue
+                
+            rng = np.random.RandomState(seed=random_seed + bin_id)
+            shuffled = rng.permutation(bin_samples)
+            
+            n_train = int(len(shuffled) * train_ratio)
+            n_val = int(len(shuffled) * val_ratio)
+            
+            train_idx.extend(shuffled[:n_train])
+            val_idx.extend(shuffled[n_train:n_train + n_val])
+            test_idx.extend(shuffled[n_train + n_val:])
+        
+        # Shuffle final indices
+        rng = np.random.RandomState(seed=random_seed)
+        train_idx = rng.permutation(train_idx)
+        val_idx = rng.permutation(val_idx)
+        test_idx = rng.permutation(test_idx)
+        
+        return np.array(train_idx), np.array(val_idx), np.array(test_idx)
+
     def call(self):
         # Load features from Forehead_EEG folder (4 channels, we use FP1 and FP2)
         feature_folder = "Forehead_EEG/EEG_Feature_2Hz"
@@ -160,19 +198,10 @@ class load_dataset_fp_no_cv():
         clfLabel = np.eye(3)[temp]  # one-hot encoding / (885,3)
         feature = np.moveaxis(feature, 0, 1)  # feature.shape = (885, 2, 25)
 
-        # Fixed train/val/test split: 70%/15%/15%
-        n_samples = feature.shape[0]
-        rng = np.random.RandomState(seed=self.random_seed)
-        allIdx = rng.permutation(n_samples)
-        
-        # Calculate split indices
-        n_train = int(n_samples * self.train_ratio)
-        n_val = int(n_samples * self.val_ratio)
-        # n_test = n_samples - n_train - n_val  (remaining samples)
-        
-        trainIdx = allIdx[:n_train]
-        valIdx = allIdx[n_train:n_train + n_val]
-        testIdx = allIdx[n_train + n_val:]
+        # Stratified train/val/test split: 70%/15%/15% (balanced across PERCLOS bins)
+        trainIdx, valIdx, testIdx = self._stratified_split_regression(
+            feature, label, self.train_ratio, self.val_ratio, self.random_seed
+        )
 
         trainFeature, validFeature, testFeature \
             = feature[trainIdx, :, :], feature[valIdx, :, :], feature[testIdx, :, :]
@@ -214,6 +243,44 @@ class load_dataset_fp_no_cv_f21_25():
         if not files:
             raise FileNotFoundError("No file found matching pattern: {}".format(pattern))
         return files[0]
+
+    def _stratified_split_regression(self, features, labels, train_ratio, val_ratio, random_seed):
+        """Stratified split for regression by binning labels"""
+        n_samples = features.shape[0]
+        n_bins = 5  # Split PERCLOS into 5 bins
+        
+        # Create bins for stratification
+        bin_edges = np.linspace(labels.min(), labels.max() + 0.001, n_bins + 1)
+        bin_indices = np.digitize(labels, bin_edges) - 1
+        bin_indices = np.clip(bin_indices, 0, n_bins - 1)
+        
+        train_idx, val_idx, test_idx = [], [], []
+        
+        # Stratified sampling per bin
+        for bin_id in range(n_bins):
+            bin_mask = (bin_indices == bin_id)
+            bin_samples = np.where(bin_mask)[0]
+            
+            if len(bin_samples) == 0:
+                continue
+                
+            rng = np.random.RandomState(seed=random_seed + bin_id)
+            shuffled = rng.permutation(bin_samples)
+            
+            n_train = int(len(shuffled) * train_ratio)
+            n_val = int(len(shuffled) * val_ratio)
+            
+            train_idx.extend(shuffled[:n_train])
+            val_idx.extend(shuffled[n_train:n_train + n_val])
+            test_idx.extend(shuffled[n_train + n_val:])
+        
+        # Shuffle final indices
+        rng = np.random.RandomState(seed=random_seed)
+        train_idx = rng.permutation(train_idx)
+        val_idx = rng.permutation(val_idx)
+        test_idx = rng.permutation(test_idx)
+        
+        return np.array(train_idx), np.array(val_idx), np.array(test_idx)
 
     def call(self):
         # Load features from Forehead_EEG folder (4 channels, we use FP1 and FP2)
@@ -258,19 +325,10 @@ class load_dataset_fp_no_cv_f21_25():
         clfLabel = np.eye(3)[temp]  # one-hot encoding / (885,3)
         feature = np.moveaxis(feature, 0, 1)  # feature.shape = (885, 2, 5)
 
-        # Fixed train/val/test split: 70%/15%/15%
-        n_samples = feature.shape[0]
-        rng = np.random.RandomState(seed=self.random_seed)
-        allIdx = rng.permutation(n_samples)
-        
-        # Calculate split indices
-        n_train = int(n_samples * self.train_ratio)
-        n_val = int(n_samples * self.val_ratio)
-        # n_test = n_samples - n_train - n_val  (remaining samples)
-        
-        trainIdx = allIdx[:n_train]
-        valIdx = allIdx[n_train:n_train + n_val]
-        testIdx = allIdx[n_train + n_val:]
+        # Stratified train/val/test split: 70%/15%/15% (balanced across PERCLOS bins)
+        trainIdx, valIdx, testIdx = self._stratified_split_regression(
+            feature, label, self.train_ratio, self.val_ratio, self.random_seed
+        )
 
         trainFeature, validFeature, testFeature \
             = feature[trainIdx, :, :], feature[valIdx, :, :], feature[testIdx, :, :]

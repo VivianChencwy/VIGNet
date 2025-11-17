@@ -561,7 +561,7 @@ def plot_cv_summary(cv_summary, output_path, trial_num, task):
 
 def main():
     # Log file path - modify this to change the log file
-    log_file = 'trial3_RGS_20251116_152357.log'
+    log_file = 'trial2_RGS_20251116_175423.log'
     output_dir_str = './logs_fp_f21_25'
     prefix = None  # Set to None for auto-detection, or specify custom prefix
     

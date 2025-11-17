@@ -10,14 +10,24 @@ class vignet_fp_f21_25(tf.keras.Model):
 
         self.mode = mode
 
-        self.regularizer = tf.keras.regularizers.L1L2(l1=0.05, l2=0.005)
+        # Increase L2 regularization to reduce overfitting
+        self.regularizer = tf.keras.regularizers.L1L2(l1=0.01, l2=0.05)
         self.activation = tf.nn.leaky_relu
         
-        # Define convolution layers adapted for 5 frequency features
+        # Define convolution layers adapted for 5 frequency features (without activation)
         # Use smaller kernels and padding to handle reduced frequency dimension
-        self.conv1 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=self.activation)
-        self.conv2 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=self.activation)
-        self.conv3 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=self.activation)
+        self.conv1 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=None)
+        self.bn1 = tf.keras.layers.BatchNormalization()
+        self.dropout1 = tf.keras.layers.Dropout(0.3)
+        
+        self.conv2 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=None)
+        self.bn2 = tf.keras.layers.BatchNormalization()
+        self.dropout2 = tf.keras.layers.Dropout(0.3)
+        
+        self.conv3 = tf.keras.layers.Conv2D(10, (1, 3), padding='same', kernel_regularizer=self.regularizer, activation=None)
+        self.bn3 = tf.keras.layers.BatchNormalization()
+        self.dropout3 = tf.keras.layers.Dropout(0.3)
+        
         # Changed from (17, 1) to (2, 1) for 2 channels
         self.conv4 = tf.keras.layers.Conv2D(20, (2, 1), kernel_regularizer=self.regularizer, activation=self.activation)
 
@@ -44,18 +54,27 @@ class vignet_fp_f21_25(tf.keras.Model):
         return MHRSSA
 
 
-    def call(self, x):
+    def call(self, x, training=False):
         att1 = self.MHRSSA(x, 10)
         hidden = self.conv1(x)
+        hidden = self.bn1(hidden, training=training)
+        hidden = self.activation(hidden)
         hidden *= att1
+        hidden = self.dropout1(hidden, training=training)
 
         att2 = self.MHRSSA(hidden, 10)
         hidden = self.conv2(hidden)
+        hidden = self.bn2(hidden, training=training)
+        hidden = self.activation(hidden)
         hidden *= att2
+        hidden = self.dropout2(hidden, training=training)
 
         att3 = self.MHRSSA(hidden, 10)
         hidden = self.conv3(hidden)
+        hidden = self.bn3(hidden, training=training)
+        hidden = self.activation(hidden)
         hidden *= att3
+        hidden = self.dropout3(hidden, training=training)
 
         hidden = self.conv4(hidden)
 

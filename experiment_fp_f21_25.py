@@ -25,6 +25,7 @@ except:
 
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.preprocessing import StandardScaler
 from scipy.stats import pearsonr
 
 class experiment_fp_f21_25():
@@ -60,9 +61,9 @@ class experiment_fp_f21_25():
 
         # Define learning schedules
         self.learning_rate = 0.005
-        self.num_epochs = 500
+        self.num_epochs = 200
         self.num_batches = 8
-        self.early_stopping_patience = 50
+        self.early_stopping_patience = 20
         # Create optimizer with jit_compile=False to avoid XLA issues
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=self.learning_rate)
         # Force eager execution to avoid XLA compilation
@@ -93,6 +94,22 @@ class experiment_fp_f21_25():
         load_data = utils.load_dataset_fp_no_cv_f21_25(trial=self.trial_idx, reg_label=self.reg_label)
         Xtrain, Ytrain, Xvalid, Yvalid, Xtest, Ytest = load_data.call()
         self.logger.info(f"Dataset shapes - Train: {Xtrain.shape}, Valid: {Xvalid.shape}, Test: {Xtest.shape}")
+        
+        # Feature normalization (StandardScaler on training data only)
+        train_shape = Xtrain.shape
+        Xtrain_flat = Xtrain.reshape(train_shape[0], -1)
+        Xvalid_flat = Xvalid.reshape(Xvalid.shape[0], -1)
+        Xtest_flat = Xtest.reshape(Xtest.shape[0], -1)
+        
+        scaler = StandardScaler()
+        Xtrain_flat = scaler.fit_transform(Xtrain_flat)
+        Xvalid_flat = scaler.transform(Xvalid_flat)
+        Xtest_flat = scaler.transform(Xtest_flat)
+        
+        Xtrain = Xtrain_flat.reshape(train_shape)
+        Xvalid = Xvalid_flat.reshape(Xvalid.shape)
+        Xtest = Xtest_flat.reshape(Xtest.shape)
+        self.logger.info("Applied feature normalization (StandardScaler)")
         
         # Convert to Tensor for better GPU utilization (optimize data transfer)
         Xtrain = tf.constant(Xtrain, dtype=tf.float64)
@@ -142,6 +159,9 @@ class experiment_fp_f21_25():
 
                 # Estimate loss
                 loss, grads = utils.grad(model=VIGNet, inputs=x, labels=y, mode=self.task)
+
+                # Gradient clipping to prevent exploding gradients
+                grads, global_norm = tf.clip_by_global_norm(grads, clip_norm=1.0)
 
                 # Update the network
                 optimizer.apply_gradients(zip(grads, VIGNet.trainable_variables))
@@ -207,12 +227,32 @@ class experiment_fp_f21_25():
         
         return valid_metrics, test_metrics, predictions
     
+    def _check_prediction_concentration(self, y_pred, set_name, threshold=0.02):
+        """Check if predictions are concentrated around fixed values"""
+        pred_std = np.std(y_pred)
+        pred_range = np.max(y_pred) - np.min(y_pred)
+        pred_unique_ratio = len(np.unique(np.round(y_pred, 3))) / len(y_pred)
+        
+        self.logger.info(f"{set_name} Prediction Stats:")
+        self.logger.info(f"  Std: {pred_std:.6f}, Range: {pred_range:.6f}, Unique ratio: {pred_unique_ratio:.4f}")
+        
+        if pred_std < threshold:
+            self.logger.warning(f"  ⚠ WARNING: {set_name} predictions may be concentrated (std < {threshold})")
+        
+        if pred_unique_ratio < 0.1:
+            self.logger.warning(f"  ⚠ WARNING: {set_name} predictions have low diversity (unique ratio < 0.1)")
+        
+        return pred_std, pred_range, pred_unique_ratio
+    
     def _evaluate(self, y_true, y_pred, set_name):
         """Evaluate model performance and return metrics"""
         if self.reg_label:
             # Regression task
             y_pred_np = y_pred.numpy().squeeze()
             y_true_np = y_true
+            
+            # Check for prediction concentration issues
+            pred_std, pred_range, pred_unique_ratio = self._check_prediction_concentration(y_pred_np, set_name)
             
             mse = mean_squared_error(y_true_np, y_pred_np)
             mae = mean_absolute_error(y_true_np, y_pred_np)
@@ -227,7 +267,10 @@ class experiment_fp_f21_25():
                 'mae': mae,
                 'rmse': rmse,
                 'correlation': corr,
-                'p_value': p_value
+                'p_value': p_value,
+                'pred_std': pred_std,
+                'pred_range': pred_range,
+                'pred_unique_ratio': pred_unique_ratio
             }
         else:
             # Classification task
