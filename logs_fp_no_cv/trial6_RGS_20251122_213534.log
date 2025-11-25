@@ -1,0 +1,253 @@
+2025-11-22 22:54:03,788 - INFO - ================================================================================
+2025-11-22 22:54:03,788 - INFO - TRIAL 6 - Task: RGS (FP1/FP2 only, no CV)
+2025-11-22 22:54:03,788 - INFO - Log file: ./logs_fp_no_cv/trial6_RGS_20251122_213534.log
+2025-11-22 22:54:03,788 - INFO - Start time: 2025-11-22 22:54:03
+2025-11-22 22:54:03,788 - INFO - ================================================================================
+2025-11-22 22:54:03,795 - INFO - START TRAINING - Task: RGS (FP1/FP2 only, no CV)
+2025-11-22 22:54:03,795 - INFO - Learning rate: 0.005, Epochs: 200, Batches: 8
+2025-11-22 22:54:03,795 - INFO - Data split: 70% train / 15% validation / 15% test
+2025-11-22 22:54:03,795 - INFO - Loading dataset (FP1/FP2 channels only, fixed split)...
+2025-11-22 22:54:03,826 - INFO - Dataset shapes - Train: (617, 2, 25, 1), Valid: (129, 2, 25, 1), Test: (139, 2, 25, 1)
+2025-11-22 22:54:03,827 - INFO - Applied feature normalization (StandardScaler)
+2025-11-22 22:54:03,828 - INFO - Initializing VIGNet-FP model (2 channels)...
+2025-11-22 22:54:03,834 - INFO - Number of batch iterations per epoch: 77
+2025-11-22 22:54:13,806 - INFO - Epoch: 1, Training Loss: 0.0252, Validation Loss: 0.0134
+2025-11-22 22:54:13,812 - INFO -   → New best validation loss: 0.0134
+2025-11-22 22:54:23,368 - INFO - Epoch: 2, Training Loss: 0.0107, Validation Loss: 0.0082
+2025-11-22 22:54:23,374 - INFO -   → New best validation loss: 0.0082
+2025-11-22 22:54:32,781 - INFO - Epoch: 3, Training Loss: 0.0084, Validation Loss: 0.0078
+2025-11-22 22:54:32,781 - INFO -   → New best validation loss: 0.0078
+2025-11-22 22:54:41,990 - INFO - Epoch: 4, Training Loss: 0.0065, Validation Loss: 0.0079
+2025-11-22 22:54:48,407 - INFO - Epoch: 5, Training Loss: 0.0063, Validation Loss: 0.0086
+2025-11-22 22:54:59,133 - INFO - Epoch: 6, Training Loss: 0.0063, Validation Loss: 0.0108
+2025-11-22 22:55:07,861 - INFO - Epoch: 7, Training Loss: 0.0060, Validation Loss: 0.0063
+2025-11-22 22:55:07,862 - INFO -   → New best validation loss: 0.0063
+2025-11-22 22:55:14,506 - INFO - Epoch: 8, Training Loss: 0.0056, Validation Loss: 0.0066
+2025-11-22 22:55:21,017 - INFO - Epoch: 9, Training Loss: 0.0054, Validation Loss: 0.0065
+2025-11-22 22:55:28,139 - INFO - Epoch: 10, Training Loss: 0.0051, Validation Loss: 0.0061
+2025-11-22 22:55:28,140 - INFO -   → New best validation loss: 0.0061
+2025-11-22 22:55:39,155 - INFO - Epoch: 11, Training Loss: 0.0054, Validation Loss: 0.0084
+2025-11-22 22:55:47,178 - INFO - Epoch: 12, Training Loss: 0.0046, Validation Loss: 0.0059
+2025-11-22 22:55:47,184 - INFO -   → New best validation loss: 0.0059
+2025-11-22 22:55:55,585 - INFO - Epoch: 13, Training Loss: 0.0044, Validation Loss: 0.0054
+2025-11-22 22:55:55,588 - INFO -   → New best validation loss: 0.0054
+2025-11-22 22:56:05,388 - INFO - Epoch: 14, Training Loss: 0.0042, Validation Loss: 0.0063
+2025-11-22 22:56:17,677 - INFO - Epoch: 15, Training Loss: 0.0046, Validation Loss: 0.0051
+2025-11-22 22:56:17,680 - INFO -   → New best validation loss: 0.0051
+2025-11-22 22:56:25,475 - INFO - Epoch: 16, Training Loss: 0.0039, Validation Loss: 0.0046
+2025-11-22 22:56:25,476 - INFO -   → New best validation loss: 0.0046
+2025-11-22 22:56:34,591 - INFO - Epoch: 17, Training Loss: 0.0043, Validation Loss: 0.0041
+2025-11-22 22:56:34,595 - INFO -   → New best validation loss: 0.0041
+2025-11-22 22:56:41,720 - INFO - Epoch: 18, Training Loss: 0.0032, Validation Loss: 0.0035
+2025-11-22 22:56:41,721 - INFO -   → New best validation loss: 0.0035
+2025-11-22 22:56:53,290 - INFO - Epoch: 19, Training Loss: 0.0040, Validation Loss: 0.0040
+2025-11-22 22:57:00,669 - INFO - Epoch: 20, Training Loss: 0.0034, Validation Loss: 0.0051
+2025-11-22 22:57:08,837 - INFO - Epoch: 21, Training Loss: 0.0030, Validation Loss: 0.0044
+2025-11-22 22:57:16,482 - INFO - Epoch: 22, Training Loss: 0.0032, Validation Loss: 0.0033
+2025-11-22 22:57:16,483 - INFO -   → New best validation loss: 0.0033
+2025-11-22 22:57:26,380 - INFO - Epoch: 23, Training Loss: 0.0030, Validation Loss: 0.0031
+2025-11-22 22:57:26,385 - INFO -   → New best validation loss: 0.0031
+2025-11-22 22:57:36,065 - INFO - Epoch: 24, Training Loss: 0.0026, Validation Loss: 0.0024
+2025-11-22 22:57:36,069 - INFO -   → New best validation loss: 0.0024
+2025-11-22 22:57:46,437 - INFO - Epoch: 25, Training Loss: 0.0022, Validation Loss: 0.0018
+2025-11-22 22:57:46,438 - INFO -   → New best validation loss: 0.0018
+2025-11-22 22:57:54,146 - INFO - Epoch: 26, Training Loss: 0.0019, Validation Loss: 0.0022
+2025-11-22 22:58:03,382 - INFO - Epoch: 27, Training Loss: 0.0019, Validation Loss: 0.0026
+2025-11-22 22:58:11,333 - INFO - Epoch: 28, Training Loss: 0.0020, Validation Loss: 0.0013
+2025-11-22 22:58:11,335 - INFO -   → New best validation loss: 0.0013
+2025-11-22 22:58:19,011 - INFO - Epoch: 29, Training Loss: 0.0017, Validation Loss: 0.0015
+2025-11-22 22:58:25,648 - INFO - Epoch: 30, Training Loss: 0.0019, Validation Loss: 0.0021
+2025-11-22 22:58:32,031 - INFO - Epoch: 31, Training Loss: 0.0016, Validation Loss: 0.0017
+2025-11-22 22:58:40,447 - INFO - Epoch: 32, Training Loss: 0.0017, Validation Loss: 0.0017
+2025-11-22 22:58:49,365 - INFO - Epoch: 33, Training Loss: 0.0016, Validation Loss: 0.0016
+2025-11-22 22:58:56,789 - INFO - Epoch: 34, Training Loss: 0.0015, Validation Loss: 0.0019
+2025-11-22 22:59:06,544 - INFO - Epoch: 35, Training Loss: 0.0015, Validation Loss: 0.0019
+2025-11-22 22:59:14,840 - INFO - Epoch: 36, Training Loss: 0.0013, Validation Loss: 0.0010
+2025-11-22 22:59:14,842 - INFO -   → New best validation loss: 0.0010
+2025-11-22 22:59:24,703 - INFO - Epoch: 37, Training Loss: 0.0013, Validation Loss: 0.0016
+2025-11-22 22:59:33,933 - INFO - Epoch: 38, Training Loss: 0.0012, Validation Loss: 0.0009
+2025-11-22 22:59:33,934 - INFO -   → New best validation loss: 0.0009
+2025-11-22 22:59:43,919 - INFO - Epoch: 39, Training Loss: 0.0013, Validation Loss: 0.0009
+2025-11-22 22:59:43,925 - INFO -   → New best validation loss: 0.0009
+2025-11-22 22:59:53,233 - INFO - Epoch: 40, Training Loss: 0.0013, Validation Loss: 0.0012
+2025-11-22 23:00:04,001 - INFO - Epoch: 41, Training Loss: 0.0012, Validation Loss: 0.0012
+2025-11-22 23:00:12,960 - INFO - Epoch: 42, Training Loss: 0.0014, Validation Loss: 0.0018
+2025-11-22 23:00:21,125 - INFO - Epoch: 43, Training Loss: 0.0011, Validation Loss: 0.0012
+2025-11-22 23:00:30,893 - INFO - Epoch: 44, Training Loss: 0.0012, Validation Loss: 0.0014
+2025-11-22 23:00:42,902 - INFO - Epoch: 45, Training Loss: 0.0012, Validation Loss: 0.0017
+2025-11-22 23:00:51,884 - INFO - Epoch: 46, Training Loss: 0.0010, Validation Loss: 0.0013
+2025-11-22 23:00:59,592 - INFO - Epoch: 47, Training Loss: 0.0009, Validation Loss: 0.0007
+2025-11-22 23:00:59,593 - INFO -   → New best validation loss: 0.0007
+2025-11-22 23:01:07,203 - INFO - Epoch: 48, Training Loss: 0.0011, Validation Loss: 0.0013
+2025-11-22 23:01:15,945 - INFO - Epoch: 49, Training Loss: 0.0011, Validation Loss: 0.0011
+2025-11-22 23:01:24,891 - INFO - Epoch: 50, Training Loss: 0.0010, Validation Loss: 0.0018
+2025-11-22 23:01:35,130 - INFO - Epoch: 51, Training Loss: 0.0011, Validation Loss: 0.0013
+2025-11-22 23:01:45,068 - INFO - Epoch: 52, Training Loss: 0.0011, Validation Loss: 0.0013
+2025-11-22 23:01:54,026 - INFO - Epoch: 53, Training Loss: 0.0009, Validation Loss: 0.0006
+2025-11-22 23:01:54,027 - INFO -   → New best validation loss: 0.0006
+2025-11-22 23:02:03,430 - INFO - Epoch: 54, Training Loss: 0.0009, Validation Loss: 0.0008
+2025-11-22 23:02:11,821 - INFO - Epoch: 55, Training Loss: 0.0009, Validation Loss: 0.0007
+2025-11-22 23:02:19,103 - INFO - Epoch: 56, Training Loss: 0.0009, Validation Loss: 0.0008
+2025-11-22 23:02:29,368 - INFO - Epoch: 57, Training Loss: 0.0011, Validation Loss: 0.0010
+2025-11-22 23:02:36,895 - INFO - Epoch: 58, Training Loss: 0.0009, Validation Loss: 0.0010
+2025-11-22 23:02:46,749 - INFO - Epoch: 59, Training Loss: 0.0010, Validation Loss: 0.0012
+2025-11-22 23:02:56,650 - INFO - Epoch: 60, Training Loss: 0.0010, Validation Loss: 0.0007
+2025-11-22 23:03:07,769 - INFO - Epoch: 61, Training Loss: 0.0009, Validation Loss: 0.0009
+2025-11-22 23:03:19,110 - INFO - Epoch: 62, Training Loss: 0.0009, Validation Loss: 0.0018
+2025-11-22 23:03:26,811 - INFO - Epoch: 63, Training Loss: 0.0010, Validation Loss: 0.0007
+2025-11-22 23:03:36,179 - INFO - Epoch: 64, Training Loss: 0.0008, Validation Loss: 0.0007
+2025-11-22 23:03:44,715 - INFO - Epoch: 65, Training Loss: 0.0009, Validation Loss: 0.0008
+2025-11-22 23:03:53,429 - INFO - Epoch: 66, Training Loss: 0.0009, Validation Loss: 0.0012
+2025-11-22 23:04:01,189 - INFO - Epoch: 67, Training Loss: 0.0008, Validation Loss: 0.0008
+2025-11-22 23:04:09,470 - INFO - Epoch: 68, Training Loss: 0.0008, Validation Loss: 0.0013
+2025-11-22 23:04:20,294 - INFO - Epoch: 69, Training Loss: 0.0010, Validation Loss: 0.0013
+2025-11-22 23:04:30,251 - INFO - Epoch: 70, Training Loss: 0.0010, Validation Loss: 0.0006
+2025-11-22 23:04:39,118 - INFO - Epoch: 71, Training Loss: 0.0009, Validation Loss: 0.0007
+2025-11-22 23:04:47,098 - INFO - Epoch: 72, Training Loss: 0.0008, Validation Loss: 0.0009
+2025-11-22 23:04:52,185 - INFO - Epoch: 73, Training Loss: 0.0006, Validation Loss: 0.0005
+2025-11-22 23:04:52,186 - INFO -   → New best validation loss: 0.0005
+2025-11-22 23:05:00,100 - INFO - Epoch: 74, Training Loss: 0.0008, Validation Loss: 0.0031
+2025-11-22 23:05:09,085 - INFO - Epoch: 75, Training Loss: 0.0008, Validation Loss: 0.0006
+2025-11-22 23:05:17,241 - INFO - Epoch: 76, Training Loss: 0.0009, Validation Loss: 0.0006
+2025-11-22 23:05:24,001 - INFO - Epoch: 77, Training Loss: 0.0006, Validation Loss: 0.0007
+2025-11-22 23:05:32,191 - INFO - Epoch: 78, Training Loss: 0.0007, Validation Loss: 0.0007
+2025-11-22 23:05:40,743 - INFO - Epoch: 79, Training Loss: 0.0007, Validation Loss: 0.0009
+2025-11-22 23:05:50,210 - INFO - Epoch: 80, Training Loss: 0.0007, Validation Loss: 0.0006
+2025-11-22 23:05:59,575 - INFO - Epoch: 81, Training Loss: 0.0008, Validation Loss: 0.0016
+2025-11-22 23:06:08,634 - INFO - Epoch: 82, Training Loss: 0.0009, Validation Loss: 0.0006
+2025-11-22 23:06:18,306 - INFO - Epoch: 83, Training Loss: 0.0008, Validation Loss: 0.0009
+2025-11-22 23:06:23,718 - INFO - Epoch: 84, Training Loss: 0.0008, Validation Loss: 0.0011
+2025-11-22 23:06:32,402 - INFO - Epoch: 85, Training Loss: 0.0007, Validation Loss: 0.0008
+2025-11-22 23:06:40,738 - INFO - Epoch: 86, Training Loss: 0.0009, Validation Loss: 0.0008
+2025-11-22 23:06:52,165 - INFO - Epoch: 87, Training Loss: 0.0010, Validation Loss: 0.0007
+2025-11-22 23:07:04,236 - INFO - Epoch: 88, Training Loss: 0.0008, Validation Loss: 0.0011
+2025-11-22 23:07:14,909 - INFO - Epoch: 89, Training Loss: 0.0008, Validation Loss: 0.0014
+2025-11-22 23:07:23,196 - INFO - Epoch: 90, Training Loss: 0.0007, Validation Loss: 0.0008
+2025-11-22 23:07:33,652 - INFO - Epoch: 91, Training Loss: 0.0006, Validation Loss: 0.0005
+2025-11-22 23:07:33,653 - INFO -   → New best validation loss: 0.0005
+2025-11-22 23:07:41,074 - INFO - Epoch: 92, Training Loss: 0.0007, Validation Loss: 0.0007
+2025-11-22 23:07:52,103 - INFO - Epoch: 93, Training Loss: 0.0008, Validation Loss: 0.0009
+2025-11-22 23:08:02,427 - INFO - Epoch: 94, Training Loss: 0.0008, Validation Loss: 0.0008
+2025-11-22 23:08:09,717 - INFO - Epoch: 95, Training Loss: 0.0006, Validation Loss: 0.0006
+2025-11-22 23:08:16,398 - INFO - Epoch: 96, Training Loss: 0.0006, Validation Loss: 0.0011
+2025-11-22 23:08:23,845 - INFO - Epoch: 97, Training Loss: 0.0007, Validation Loss: 0.0008
+2025-11-22 23:08:34,443 - INFO - Epoch: 98, Training Loss: 0.0007, Validation Loss: 0.0007
+2025-11-22 23:08:43,266 - INFO - Epoch: 99, Training Loss: 0.0007, Validation Loss: 0.0007
+2025-11-22 23:08:50,839 - INFO - Epoch: 100, Training Loss: 0.0009, Validation Loss: 0.0017
+2025-11-22 23:09:00,031 - INFO - Epoch: 101, Training Loss: 0.0007, Validation Loss: 0.0005
+2025-11-22 23:09:08,553 - INFO - Epoch: 102, Training Loss: 0.0008, Validation Loss: 0.0008
+2025-11-22 23:09:18,026 - INFO - Epoch: 103, Training Loss: 0.0007, Validation Loss: 0.0009
+2025-11-22 23:09:27,160 - INFO - Epoch: 104, Training Loss: 0.0008, Validation Loss: 0.0007
+2025-11-22 23:09:36,508 - INFO - Epoch: 105, Training Loss: 0.0006, Validation Loss: 0.0006
+2025-11-22 23:09:44,558 - INFO - Epoch: 106, Training Loss: 0.0006, Validation Loss: 0.0010
+2025-11-22 23:09:52,461 - INFO - Epoch: 107, Training Loss: 0.0007, Validation Loss: 0.0015
+2025-11-22 23:10:03,407 - INFO - Epoch: 108, Training Loss: 0.0007, Validation Loss: 0.0006
+2025-11-22 23:10:13,950 - INFO - Epoch: 109, Training Loss: 0.0008, Validation Loss: 0.0013
+2025-11-22 23:10:23,992 - INFO - Epoch: 110, Training Loss: 0.0008, Validation Loss: 0.0006
+2025-11-22 23:10:36,503 - INFO - Epoch: 111, Training Loss: 0.0006, Validation Loss: 0.0007
+2025-11-22 23:10:36,504 - INFO - Early stopping triggered at epoch 111
+2025-11-22 23:10:36,504 - INFO - Best validation loss: 0.0005
+2025-11-22 23:10:36,522 - INFO - Restored best model weights
+2025-11-22 23:10:36,522 - INFO - Starting model save process...
+2025-11-22 23:10:36,522 - INFO - Creating models directory: ./logs_fp_no_cv/models
+2025-11-22 23:10:36,522 - INFO - Models directory created/verified: ./logs_fp_no_cv/models
+2025-11-22 23:10:36,522 - INFO - Attempting to save model to: ./logs_fp_no_cv/models/trial6_best_model
+2025-11-22 23:10:36,813 - WARNING - Failed to save model in SavedModel format: in user code:
+
+    File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/saving/legacy/saving_utils.py", line 147, in _wrapped_model  *
+        outputs = model(*args, **kwargs)
+    File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler  **
+        raise e.with_traceback(filtered_tb) from None
+    File "/tmp/__autograph_generated_file3t0ck_8q.py", line 10, in tf__call
+        att1 = ag__.converted_call(ag__.ld(self).MHRSSA, (ag__.ld(x), 10), None, fscope)
+    File "/tmp/__autograph_generated_file2szops_9.py", line 41, in tf__MHRSSA
+        ag__.for_stmt(ag__.converted_call(ag__.ld(range), (ag__.ld(out_filter),), None, fscope), None, loop_body, get_state_1, set_state_1, ('MHRSSA',), {'iterate_names': 'i'})
+    File "/tmp/__autograph_generated_file2szops_9.py", line 21, in loop_body
+        tmp = ag__.converted_call(ag__.converted_call(ag__.ld(tf).keras.layers.Conv2D, (ag__.ld(num_channel), (ag__.ld(num_channel), 1)), dict(kernel_regularizer=ag__.ld(self).regularizer, activation=None), fscope), (ag__.ld(x),), None, fscope)
+
+    ValueError: Exception encountered when calling layer 'vignet_fp_5' (type vignet_fp).
+    
+    in user code:
+    
+        File "/home/vivian/eeg/SEED_VIG/VIGNet/network_fp.py", line 56, in call  *
+            att1 = self.MHRSSA(x, 10)
+        File "/home/vivian/eeg/SEED_VIG/VIGNet/network_fp.py", line 44, in MHRSSA  *
+            tmp = tf.keras.layers.Conv2D(num_channel, (num_channel, 1), kernel_regularizer=self.regularizer, activation=None)(x)
+        File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler  **
+            raise e.with_traceback(filtered_tb) from None
+    
+        ValueError: tf.function only supports singleton tf.Variables created on the first call. Make sure the tf.Variable is only created once or created outside tf.function. See https://www.tensorflow.org/guide/function#creating_tfvariables for more information.
+    
+    
+    Call arguments received by layer 'vignet_fp_5' (type vignet_fp):
+      • x=tf.Tensor(shape=(None, 2, 25, 1), dtype=float64)
+      • training=False
+
+2025-11-22 23:10:36,813 - WARNING - Traceback (most recent call last):
+  File "experiment_fp_no_cv.py", line 261, in _save_model
+    model.save(model_save_path, save_format='tf')
+  File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/tmp/__autograph_generated_fileu3w_yla6.py", line 14, in tf___wrapped_model
+    outputs = ag__.converted_call(ag__.ld(model), tuple(ag__.ld(args)), dict(**ag__.ld(kwargs)), fscope)
+  File "/tmp/__autograph_generated_file3t0ck_8q.py", line 10, in tf__call
+    att1 = ag__.converted_call(ag__.ld(self).MHRSSA, (ag__.ld(x), 10), None, fscope)
+  File "/tmp/__autograph_generated_file2szops_9.py", line 41, in tf__MHRSSA
+    ag__.for_stmt(ag__.converted_call(ag__.ld(range), (ag__.ld(out_filter),), None, fscope), None, loop_body, get_state_1, set_state_1, ('MHRSSA',), {'iterate_names': 'i'})
+  File "/tmp/__autograph_generated_file2szops_9.py", line 21, in loop_body
+    tmp = ag__.converted_call(ag__.converted_call(ag__.ld(tf).keras.layers.Conv2D, (ag__.ld(num_channel), (ag__.ld(num_channel), 1)), dict(kernel_regularizer=ag__.ld(self).regularizer, activation=None), fscope), (ag__.ld(x),), None, fscope)
+ValueError: in user code:
+
+    File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/saving/legacy/saving_utils.py", line 147, in _wrapped_model  *
+        outputs = model(*args, **kwargs)
+    File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler  **
+        raise e.with_traceback(filtered_tb) from None
+    File "/tmp/__autograph_generated_file3t0ck_8q.py", line 10, in tf__call
+        att1 = ag__.converted_call(ag__.ld(self).MHRSSA, (ag__.ld(x), 10), None, fscope)
+    File "/tmp/__autograph_generated_file2szops_9.py", line 41, in tf__MHRSSA
+        ag__.for_stmt(ag__.converted_call(ag__.ld(range), (ag__.ld(out_filter),), None, fscope), None, loop_body, get_state_1, set_state_1, ('MHRSSA',), {'iterate_names': 'i'})
+    File "/tmp/__autograph_generated_file2szops_9.py", line 21, in loop_body
+        tmp = ag__.converted_call(ag__.converted_call(ag__.ld(tf).keras.layers.Conv2D, (ag__.ld(num_channel), (ag__.ld(num_channel), 1)), dict(kernel_regularizer=ag__.ld(self).regularizer, activation=None), fscope), (ag__.ld(x),), None, fscope)
+
+    ValueError: Exception encountered when calling layer 'vignet_fp_5' (type vignet_fp).
+    
+    in user code:
+    
+        File "/home/vivian/eeg/SEED_VIG/VIGNet/network_fp.py", line 56, in call  *
+            att1 = self.MHRSSA(x, 10)
+        File "/home/vivian/eeg/SEED_VIG/VIGNet/network_fp.py", line 44, in MHRSSA  *
+            tmp = tf.keras.layers.Conv2D(num_channel, (num_channel, 1), kernel_regularizer=self.regularizer, activation=None)(x)
+        File "/home/vivian/miniconda3/envs/seed/lib/python3.8/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler  **
+            raise e.with_traceback(filtered_tb) from None
+    
+        ValueError: tf.function only supports singleton tf.Variables created on the first call. Make sure the tf.Variable is only created once or created outside tf.function. See https://www.tensorflow.org/guide/function#creating_tfvariables for more information.
+    
+    
+    Call arguments received by layer 'vignet_fp_5' (type vignet_fp):
+      • x=tf.Tensor(shape=(None, 2, 25, 1), dtype=float64)
+      • training=False
+
+
+2025-11-22 23:10:36,813 - INFO - Attempting to save model weights to: ./logs_fp_no_cv/models/trial6_best_weights.h5
+2025-11-22 23:10:36,820 - INFO - ✓ Saved model weights to: ./logs_fp_no_cv/models/trial6_best_weights.h5
+2025-11-22 23:10:36,820 - INFO - Attempting to save scaler to: ./logs_fp_no_cv/models/trial6_scaler.pkl
+2025-11-22 23:10:36,820 - INFO - ✓ Saved scaler to: ./logs_fp_no_cv/models/trial6_scaler.pkl
+2025-11-22 23:10:36,820 - INFO - Attempting to save metadata to: ./logs_fp_no_cv/models/trial6_metadata.pkl
+2025-11-22 23:10:36,821 - INFO - ✓ Saved model metadata to: ./logs_fp_no_cv/models/trial6_metadata.pkl
+2025-11-22 23:10:36,821 - INFO - Model save process completed
+2025-11-22 23:10:36,821 - INFO - 
+============================================================
+2025-11-22 23:10:36,821 - INFO - EVALUATION RESULTS
+2025-11-22 23:10:36,821 - INFO - ============================================================
+2025-11-22 23:10:36,980 - INFO - Validation Prediction Stats:
+2025-11-22 23:10:36,980 - INFO -   Std: 0.132554, Range: 0.550666, Unique ratio: 0.7132
+2025-11-22 23:10:36,981 - INFO - Validation Set - MSE: 0.000857, MAE: 0.019374, RMSE: 0.029276, Pearson Correlation: 0.978146 (p=0.000000)
+2025-11-22 23:10:37,180 - INFO - Test Prediction Stats:
+2025-11-22 23:10:37,180 - INFO -   Std: 0.124458, Range: 0.542012, Unique ratio: 0.6619
+2025-11-22 23:10:37,182 - INFO - Test Set - MSE: 0.000617, MAE: 0.018380, RMSE: 0.024839, Pearson Correlation: 0.980743 (p=0.000000)
+2025-11-22 23:10:37,182 - INFO - ============================================================
+
+2025-11-22 23:10:37,183 - INFO - Trial completed successfully
+2025-11-22 23:10:37,183 - INFO - ================================================================================
+2025-11-22 23:10:37,183 - INFO - Trial 6 completed. End time: 2025-11-22 23:10:37
+2025-11-22 23:10:37,183 - INFO - ================================================================================

@@ -52,6 +52,7 @@ class experiment_fp_no_cv():
         
         self.trial_idx = trial_idx
         self.task = task # for controlling task of interests
+        self.log_dir = log_dir  # Store log directory for model saving
 
         self.reg_label = False
 
@@ -108,6 +109,9 @@ class experiment_fp_no_cv():
         Xvalid = Xvalid_flat.reshape(Xvalid.shape)
         Xtest = Xtest_flat.reshape(Xtest.shape)
         self.logger.info("Applied feature normalization (StandardScaler)")
+        
+        # Store scaler for model saving
+        self.scaler = scaler
         
         # Convert to Tensor for better GPU utilization (optimize data transfer)
         Xtrain = tf.constant(Xtrain, dtype=tf.float64)
@@ -196,6 +200,16 @@ class experiment_fp_no_cv():
             VIGNet.set_weights(best_weights)
             self.logger.info("Restored best model weights")
         
+        # Save model and scaler for inference
+        try:
+            self.logger.info("Starting model save process...")
+            self._save_model(VIGNet)
+            self.logger.info("Model save process completed")
+        except Exception as e:
+            self.logger.error(f"Error during model save process: {e}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+        
         # Final evaluation on validation and test sets
         self.logger.info("\n" + "="*60)
         self.logger.info("EVALUATION RESULTS")
@@ -224,6 +238,79 @@ class experiment_fp_no_cv():
         }
         
         return valid_metrics, test_metrics, predictions
+    
+    def _save_model(self, model):
+        """Save trained model and scaler for inference"""
+        import pickle
+        
+        # Create models directory
+        models_dir = os.path.join(self.log_dir, "models")
+        self.logger.info(f"Creating models directory: {models_dir}")
+        try:
+            os.makedirs(models_dir, exist_ok=True)
+            self.logger.info(f"Models directory created/verified: {models_dir}")
+        except Exception as e:
+            self.logger.error(f"Failed to create models directory: {e}")
+            raise
+        
+        # Save model (SavedModel format for easy loading)
+        model_save_path = os.path.join(models_dir, f"trial{self.trial_idx}_best_model")
+        self.logger.info(f"Attempting to save model to: {model_save_path}")
+        model_saved = False
+        try:
+            model.save(model_save_path, save_format='tf')
+            self.logger.info(f"✓ Saved model to: {model_save_path}")
+            model_saved = True
+        except Exception as e:
+            self.logger.warning(f"Failed to save model in SavedModel format: {e}")
+            import traceback
+            self.logger.warning(traceback.format_exc())
+            # Fallback: save weights only
+            weights_save_path = os.path.join(models_dir, f"trial{self.trial_idx}_best_weights.h5")
+            self.logger.info(f"Attempting to save model weights to: {weights_save_path}")
+            try:
+                model.save_weights(weights_save_path)
+                self.logger.info(f"✓ Saved model weights to: {weights_save_path}")
+                model_saved = True
+            except Exception as e2:
+                self.logger.error(f"Failed to save model weights: {e2}")
+                import traceback
+                self.logger.error(traceback.format_exc())
+        
+        if not model_saved:
+            self.logger.error("WARNING: Model was not saved successfully!")
+        
+        # Save scaler (required for inference)
+        scaler_save_path = os.path.join(models_dir, f"trial{self.trial_idx}_scaler.pkl")
+        self.logger.info(f"Attempting to save scaler to: {scaler_save_path}")
+        try:
+            with open(scaler_save_path, 'wb') as f:
+                pickle.dump(self.scaler, f)
+            self.logger.info(f"✓ Saved scaler to: {scaler_save_path}")
+        except Exception as e:
+            self.logger.error(f"Failed to save scaler: {e}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+        
+        # Save model metadata
+        metadata = {
+            'trial': self.trial_idx,
+            'task': self.task,
+            'input_shape': (None, 2, 25, 1),  # (batch, channels, frequency, time)
+            'output_shape': (None, 1) if self.reg_label else (None, 3),
+            'model_path': model_save_path if model_saved else None,
+            'scaler_path': scaler_save_path
+        }
+        metadata_path = os.path.join(models_dir, f"trial{self.trial_idx}_metadata.pkl")
+        self.logger.info(f"Attempting to save metadata to: {metadata_path}")
+        try:
+            with open(metadata_path, 'wb') as f:
+                pickle.dump(metadata, f)
+            self.logger.info(f"✓ Saved model metadata to: {metadata_path}")
+        except Exception as e:
+            self.logger.warning(f"Failed to save metadata: {e}")
+            import traceback
+            self.logger.warning(traceback.format_exc())
     
     def _check_prediction_concentration(self, y_pred, set_name, threshold=0.02):
         """Check if predictions are concentrated around fixed values"""

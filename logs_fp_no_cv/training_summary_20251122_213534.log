@@ -1,0 +1,72 @@
+2025-11-22 21:35:34,148 - ================================================================================
+2025-11-22 21:35:34,149 - SEED-VIG Training Summary (FP1/FP2 channels only, no CV)
+2025-11-22 21:35:34,149 - Start time: 2025-11-22 21:35:34
+2025-11-22 21:35:34,149 - Data split: 70% train / 15% validation / 15% test
+2025-11-22 21:35:34,149 - ================================================================================
+2025-11-22 21:35:34,149 - Starting Trial 1
+2025-11-22 21:54:37,763 -   Trial 1 completed successfully
+2025-11-22 21:54:37,763 -   Trial 1 - Test MSE: 0.001415, Test RMSE: 0.037614, Test Correlation: 0.994057
+2025-11-22 21:54:37,764 - Starting Trial 2
+2025-11-22 22:08:35,993 -   Trial 2 completed successfully
+2025-11-22 22:08:35,993 -   Trial 2 - Test MSE: 0.000701, Test RMSE: 0.026484, Test Correlation: 0.989463
+2025-11-22 22:08:35,993 - Starting Trial 3
+2025-11-22 22:23:24,242 -   Trial 3 completed successfully
+2025-11-22 22:23:24,242 -   Trial 3 - Test MSE: 0.000932, Test RMSE: 0.030532, Test Correlation: 0.983747
+2025-11-22 22:23:24,242 - Starting Trial 4
+2025-11-22 22:36:11,462 -   Trial 4 completed successfully
+2025-11-22 22:36:11,462 -   Trial 4 - Test MSE: 0.001794, Test RMSE: 0.042351, Test Correlation: 0.976600
+2025-11-22 22:36:11,462 - Starting Trial 5
+2025-11-22 22:54:03,787 -   Trial 5 completed successfully
+2025-11-22 22:54:03,787 -   Trial 5 - Test MSE: 0.002645, Test RMSE: 0.051432, Test Correlation: 0.988604
+2025-11-22 22:54:03,788 - Starting Trial 6
+2025-11-22 23:10:37,183 -   Trial 6 completed successfully
+2025-11-22 23:10:37,183 -   Trial 6 - Test MSE: 0.000617, Test RMSE: 0.024839, Test Correlation: 0.980743
+2025-11-22 23:10:37,184 - Starting Trial 7
+2025-11-22 23:27:39,550 -   Trial 7 completed successfully
+2025-11-22 23:27:39,550 -   Trial 7 - Test MSE: 0.000706, Test RMSE: 0.026576, Test Correlation: 0.977367
+2025-11-22 23:27:39,550 - Starting Trial 8
+2025-11-22 23:48:40,833 -   Trial 8 completed successfully
+2025-11-22 23:48:40,833 -   Trial 8 - Test MSE: 0.001454, Test RMSE: 0.038136, Test Correlation: 0.987329
+2025-11-22 23:48:40,833 - Starting Trial 9
+2025-11-23 00:02:57,037 -   Trial 9 completed successfully
+2025-11-23 00:02:57,037 -   Trial 9 - Test MSE: 0.000876, Test RMSE: 0.029600, Test Correlation: 0.974473
+2025-11-23 00:02:57,038 - Starting Trial 10
+2025-11-23 00:17:05,061 -   Trial 10 completed successfully
+2025-11-23 00:17:05,061 -   Trial 10 - Test MSE: 0.001061, Test RMSE: 0.032577, Test Correlation: 0.977607
+2025-11-23 00:17:05,061 - Starting Trial 11
+2025-11-23 00:32:09,055 -   Trial 11 completed successfully
+2025-11-23 00:32:09,055 -   Trial 11 - Test MSE: 0.001030, Test RMSE: 0.032097, Test Correlation: 0.973460
+2025-11-23 00:32:09,056 - Starting Trial 12
+2025-11-23 00:44:00,495 -   Trial 12 completed successfully
+2025-11-23 00:44:00,495 -   Trial 12 - Test MSE: 0.003397, Test RMSE: 0.058282, Test Correlation: 0.988498
+2025-11-23 00:44:00,496 - Starting Trial 13
+2025-11-23 01:03:53,947 -   Trial 13 completed successfully
+2025-11-23 01:03:53,947 -   Trial 13 - Test MSE: 0.000749, Test RMSE: 0.027363, Test Correlation: 0.991090
+2025-11-23 01:03:53,947 - Starting Trial 14
+2025-11-23 01:23:12,252 -   Trial 14 completed successfully
+2025-11-23 01:23:12,252 -   Trial 14 - Test MSE: 0.002058, Test RMSE: 0.045363, Test Correlation: 0.981387
+2025-11-23 01:23:12,252 - Starting Trial 15
+2025-11-23 01:36:20,541 -   Trial 15 completed successfully
+2025-11-23 01:36:20,541 -   Trial 15 - Test MSE: 0.000824, Test RMSE: 0.028714, Test Correlation: 0.986009
+2025-11-23 01:36:20,542 - Starting Trial 16
+2025-11-23 01:47:17,954 -   Trial 16 completed successfully
+2025-11-23 01:47:17,955 -   Trial 16 - Test MSE: 0.002534, Test RMSE: 0.050343, Test Correlation: 0.987841
+2025-11-23 01:47:17,955 - Starting Trial 17
+2025-11-23 01:58:09,869 -   Trial 17 completed successfully
+2025-11-23 01:58:09,869 -   Trial 17 - Test MSE: 0.000876, Test RMSE: 0.029600, Test Correlation: 0.990251
+2025-11-23 01:58:09,870 - Starting Trial 18
+2025-11-23 02:24:42,249 -   Trial 18 completed successfully
+2025-11-23 02:24:42,249 -   Trial 18 - Test MSE: 0.001938, Test RMSE: 0.044023, Test Correlation: 0.991633
+2025-11-23 02:24:42,249 - Starting Trial 19
+2025-11-23 02:39:38,072 -   Trial 19 completed successfully
+2025-11-23 02:39:38,072 -   Trial 19 - Test MSE: 0.000311, Test RMSE: 0.017627, Test Correlation: 0.988781
+2025-11-23 02:39:38,072 - Starting Trial 20
+2025-11-23 02:58:34,418 -   Trial 20 completed successfully
+2025-11-23 02:58:34,418 -   Trial 20 - Test MSE: 0.002341, Test RMSE: 0.048383, Test Correlation: 0.993388
+2025-11-23 02:58:34,419 - Starting Trial 21
+2025-11-23 03:17:18,254 -   Trial 21 completed successfully
+2025-11-23 03:17:18,254 -   Trial 21 - Test MSE: 0.002507, Test RMSE: 0.050073, Test Correlation: 0.990285
+2025-11-23 03:17:18,254 - ================================================================================
+2025-11-23 03:17:18,254 - All training completed. End time: 2025-11-23 03:17:18
+2025-11-23 03:17:18,254 - Total duration: 5:41:44.105822
+2025-11-23 03:17:18,254 - ================================================================================

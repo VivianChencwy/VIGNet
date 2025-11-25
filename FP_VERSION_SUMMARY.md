@@ -5,7 +5,8 @@
 1. **utils_fp.py** (122 lines)
    - Data loader for FP1/FP2 channels only
    - Loads from `Forehead_EEG/EEG_Feature_2Hz` (4 channels)
-   - Extracts only channels 0 and 1 (FP1, FP2)
+   - Extracts only channels 2 and 3 (FP1, FP2)
+   - Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
    - Output shape: `(N, 2, 25, 1)`
 
 2. **network_fp.py** (77 lines)

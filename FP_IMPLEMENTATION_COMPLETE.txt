@@ -13,7 +13,8 @@ CREATED FILES (7 files)
 1. utils_fp.py (4.5 KB)
    - Data loader for FP1/FP2 channels
    - Loads from Forehead_EEG/EEG_Feature_2Hz
-   - Extracts only channels 0 (FP1) and 1 (FP2)
+   - Extracts only channels 2 (FP1) and 3 (FP2)
+   - Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
    - Shape: (N, 2, 25, 1)
 
 2. network_fp.py (2.6 KB)
@@ -49,7 +50,8 @@ KEY GUARANTEES
 
 ✓ NO DATA LEAKAGE
   - Uses Forehead_EEG folder (4 channels), not EEG_Feature_2Hz (17 channels)
-  - Only FP1 and FP2 extracted (channels 0 and 1)
+  - Only FP1 and FP2 extracted (channels 2 and 3)
+  - Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
   - No information from other 15 channels
   - Same CV splits (seed=970304) for fair comparison
 
@@ -80,7 +82,7 @@ Original Version (17 channels):
 FP1/FP2 Version (2 channels):
   Input: (N, 2, 25, 1)  ✓ VERIFIED
   Source: Forehead_EEG/EEG_Feature_2Hz/
-  Channels: Only FP1 (0) and FP2 (1)
+  Channels: Only FP1 (2) and FP2 (3)
 
 Expected training shapes:
   Train: (567, 2, 25, 1)

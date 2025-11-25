@@ -43,8 +43,9 @@ class load_dataset_fp():
                 raise RuntimeError(f"Failed to load {feature_file}. Error: {e}")
         
         # Feature shape: (4, 885, 25) - 4 forehead channels
-        # Extract only FP1 (channel 0) and FP2 (channel 1)
-        feature = feature[[0, 1], :, :]  # Shape: (2, 885, 25)
+        # Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
+        # Extract only FP1 (channel 2) and FP2 (channel 3)
+        feature = feature[[2, 3], :, :]  # Shape: (2, 885, 25)
         
         label_file = self._find_file("perclos_labels", self.trial)
         try:
@@ -173,8 +174,9 @@ class load_dataset_fp_no_cv():
                 raise RuntimeError(f"Failed to load {feature_file}. Error: {e}")
         
         # Feature shape: (4, 885, 25) - 4 forehead channels
-        # Extract only FP1 (channel 0) and FP2 (channel 1)
-        feature = feature[[0, 1], :, :]  # Shape: (2, 885, 25)
+        # Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
+        # Extract only FP1 (channel 2) and FP2 (channel 3)
+        feature = feature[[2, 3], :, :]  # Shape: (2, 885, 25)
         
         label_file = self._find_file("perclos_labels", self.trial)
         try:
@@ -296,8 +298,9 @@ class load_dataset_fp_no_cv_f21_25():
                 raise RuntimeError(f"Failed to load {feature_file}. Error: {e}")
         
         # Feature shape: (4, 885, 25) - 4 forehead channels
-        # Extract only FP1 (channel 0) and FP2 (channel 1)
-        feature = feature[[0, 1], :, :]  # Shape: (2, 885, 25)
+        # Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
+        # Extract only FP1 (channel 2) and FP2 (channel 3)
+        feature = feature[[2, 3], :, :]  # Shape: (2, 885, 25)
         
         # Extract only f21-25 features (indices 20-24, 0-based)
         # f21=41Hz, f22=43Hz, f23=45Hz, f24=47Hz, f25=49Hz

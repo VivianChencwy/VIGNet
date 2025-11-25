@@ -39,7 +39,9 @@ def test_fp_data_loading():
             return False
         
         # Extract FP1 and FP2
-        fp_features = feature[[0, 1], :, :]
+        # Channel mapping (from paper): 0=AFz, 1=FPz, 2=FP1, 3=FP2
+        # Use channel 2 (FP1) and channel 3 (FP2)
+        fp_features = feature[[2, 3], :, :]
         print(f"FP1/FP2 extracted shape: {fp_features.shape}")
         print(f"Expected shape: (2, 885, 25)")
         
@@ -55,7 +57,7 @@ def test_fp_data_loading():
         # Verify shape matches expected
         if fp_features.shape == (885, 2, 25, 1):
             print("\n✓ Data shape verification PASSED")
-            print(f"✓ Using only FP1 (channel 0) and FP2 (channel 1)")
+            print(f"✓ Using only FP1 (channel 2) and FP2 (channel 3)")
             print(f"✓ No data from other 15 channels included")
             return True
         else:

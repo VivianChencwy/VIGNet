@@ -1,0 +1,16 @@
+{
+  "target": "perclos",
+  "learning_rate": 0.005,
+  "num_epochs": 200,
+  "batch_size": 8,
+  "early_stopping_patience": 20,
+  "train_samples": 401,
+  "val_samples": 84,
+  "test_samples": 92,
+  "feature_shape": [
+    2,
+    25,
+    1
+  ],
+  "trained_at": "2025-11-24 18:04:45"
+}

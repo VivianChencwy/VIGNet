@@ -1,0 +1,146 @@
+2025-11-24 22:34:18,196 - 
+============================================================
+2025-11-24 22:34:18,196 - VIGNet Single-Target Training
+2025-11-24 22:34:18,196 - Target: false_alarm
+2025-11-24 22:34:18,196 - Started: 2025-11-24 22:34:18
+2025-11-24 22:34:18,196 - ============================================================
+2025-11-24 22:34:18,196 - 
+============================================================
+2025-11-24 22:34:18,196 - Loading data for target: false_alarm
+2025-11-24 22:34:18,196 - ============================================================
+2025-11-24 22:34:18,283 - Applied StandardScaler normalization
+2025-11-24 22:34:18,614 - 
+============================================================
+2025-11-24 22:34:18,614 - Training VIGNet for target: false_alarm
+2025-11-24 22:34:18,614 - ============================================================
+2025-11-24 22:34:18,614 - Learning rate: 0.005
+2025-11-24 22:34:18,614 - Epochs: 200
+2025-11-24 22:34:18,614 - Batch size: 8
+2025-11-24 22:34:18,614 - Early stopping patience: 20
+2025-11-24 22:34:21,587 - Epoch   1: train_loss=0.002030, val_loss=0.001178, val_corr=0.0226
+2025-11-24 22:34:21,589 -   -> New best validation loss: 0.001178
+2025-11-24 22:34:23,943 - Epoch   2: train_loss=0.000364, val_loss=0.000203, val_corr=0.1353
+2025-11-24 22:34:23,951 -   -> New best validation loss: 0.000203
+2025-11-24 22:34:26,020 - Epoch   3: train_loss=0.000206, val_loss=0.000135, val_corr=0.2024
+2025-11-24 22:34:26,021 -   -> New best validation loss: 0.000135
+2025-11-24 22:34:27,867 - Epoch   4: train_loss=0.000207, val_loss=0.000151, val_corr=0.1494
+2025-11-24 22:34:30,027 - Epoch   5: train_loss=0.000178, val_loss=0.000137, val_corr=0.1159
+2025-11-24 22:34:33,657 - Epoch   6: train_loss=0.000170, val_loss=0.000136, val_corr=0.2703
+2025-11-24 22:34:37,833 - Epoch   7: train_loss=0.000211, val_loss=0.000134, val_corr=0.2141
+2025-11-24 22:34:37,836 -   -> New best validation loss: 0.000134
+2025-11-24 22:34:40,498 - Epoch   8: train_loss=0.000189, val_loss=0.000135, val_corr=0.3499
+2025-11-24 22:34:43,363 - Epoch   9: train_loss=0.000204, val_loss=0.000146, val_corr=0.3333
+2025-11-24 22:34:46,560 - Epoch  10: train_loss=0.000168, val_loss=0.000134, val_corr=nan
+2025-11-24 22:34:49,738 - Epoch  11: train_loss=0.000219, val_loss=0.000146, val_corr=0.0918
+2025-11-24 22:34:52,423 - Epoch  12: train_loss=0.000196, val_loss=0.000153, val_corr=0.2644
+2025-11-24 22:34:56,342 - Epoch  13: train_loss=0.000198, val_loss=0.000146, val_corr=0.4641
+2025-11-24 22:34:59,396 - Epoch  14: train_loss=0.000139, val_loss=0.000137, val_corr=0.5270
+2025-11-24 22:35:02,131 - Epoch  15: train_loss=0.000155, val_loss=0.000139, val_corr=0.4526
+2025-11-24 22:35:05,242 - Epoch  16: train_loss=0.000157, val_loss=0.000147, val_corr=0.4475
+2025-11-24 22:35:08,303 - Epoch  17: train_loss=0.000138, val_loss=0.000140, val_corr=0.6608
+2025-11-24 22:35:11,223 - Epoch  18: train_loss=0.000147, val_loss=0.000131, val_corr=0.5333
+2025-11-24 22:35:11,226 -   -> New best validation loss: 0.000131
+2025-11-24 22:35:14,754 - Epoch  19: train_loss=0.000140, val_loss=0.000135, val_corr=0.3731
+2025-11-24 22:35:17,084 - Epoch  20: train_loss=0.000234, val_loss=0.000167, val_corr=0.3681
+2025-11-24 22:35:19,790 - Epoch  21: train_loss=0.000194, val_loss=0.000133, val_corr=0.1752
+2025-11-24 22:35:23,044 - Epoch  22: train_loss=0.000174, val_loss=0.000136, val_corr=0.2125
+2025-11-24 22:35:26,262 - Epoch  23: train_loss=0.000157, val_loss=0.000140, val_corr=0.4187
+2025-11-24 22:35:30,811 - Epoch  24: train_loss=0.000130, val_loss=0.000126, val_corr=0.7606
+2025-11-24 22:35:30,817 -   -> New best validation loss: 0.000126
+2025-11-24 22:35:34,693 - Epoch  25: train_loss=0.000111, val_loss=0.000131, val_corr=0.5699
+2025-11-24 22:35:38,533 - Epoch  26: train_loss=0.000161, val_loss=0.000126, val_corr=0.6715
+2025-11-24 22:35:38,534 -   -> New best validation loss: 0.000126
+2025-11-24 22:35:42,301 - Epoch  27: train_loss=0.000101, val_loss=0.000136, val_corr=0.6387
+2025-11-24 22:35:45,170 - Epoch  28: train_loss=0.000178, val_loss=0.000127, val_corr=0.7521
+2025-11-24 22:35:48,062 - Epoch  29: train_loss=0.000119, val_loss=0.000121, val_corr=0.5048
+2025-11-24 22:35:48,064 -   -> New best validation loss: 0.000121
+2025-11-24 22:35:51,283 - Epoch  30: train_loss=0.000091, val_loss=0.000107, val_corr=0.7600
+2025-11-24 22:35:51,286 -   -> New best validation loss: 0.000107
+2025-11-24 22:35:54,055 - Epoch  31: train_loss=0.000120, val_loss=0.000098, val_corr=0.6435
+2025-11-24 22:35:54,057 -   -> New best validation loss: 0.000098
+2025-11-24 22:35:56,776 - Epoch  32: train_loss=0.000125, val_loss=0.000101, val_corr=0.6482
+2025-11-24 22:36:00,108 - Epoch  33: train_loss=0.000100, val_loss=0.000092, val_corr=0.7340
+2025-11-24 22:36:00,109 -   -> New best validation loss: 0.000092
+2025-11-24 22:36:02,912 - Epoch  34: train_loss=0.000095, val_loss=0.000093, val_corr=0.7691
+2025-11-24 22:36:05,250 - Epoch  35: train_loss=0.000147, val_loss=0.000093, val_corr=0.5973
+2025-11-24 22:36:09,005 - Epoch  36: train_loss=0.000100, val_loss=0.000081, val_corr=0.6925
+2025-11-24 22:36:09,007 -   -> New best validation loss: 0.000081
+2025-11-24 22:36:12,093 - Epoch  37: train_loss=0.000107, val_loss=0.000095, val_corr=0.6147
+2025-11-24 22:36:14,798 - Epoch  38: train_loss=0.000168, val_loss=0.000122, val_corr=0.6748
+2025-11-24 22:36:17,004 - Epoch  39: train_loss=0.000123, val_loss=0.000069, val_corr=0.7326
+2025-11-24 22:36:17,005 -   -> New best validation loss: 0.000069
+2025-11-24 22:36:19,951 - Epoch  40: train_loss=0.000077, val_loss=0.000066, val_corr=0.7495
+2025-11-24 22:36:19,954 -   -> New best validation loss: 0.000066
+2025-11-24 22:36:23,690 - Epoch  41: train_loss=0.000071, val_loss=0.000088, val_corr=0.6348
+2025-11-24 22:36:26,512 - Epoch  42: train_loss=0.000086, val_loss=0.000082, val_corr=0.6786
+2025-11-24 22:36:29,510 - Epoch  43: train_loss=0.000105, val_loss=0.000074, val_corr=0.6712
+2025-11-24 22:36:31,940 - Epoch  44: train_loss=0.000110, val_loss=0.000059, val_corr=0.7572
+2025-11-24 22:36:31,943 -   -> New best validation loss: 0.000059
+2025-11-24 22:36:35,310 - Epoch  45: train_loss=0.000130, val_loss=0.000050, val_corr=0.8131
+2025-11-24 22:36:35,311 -   -> New best validation loss: 0.000050
+2025-11-24 22:36:38,326 - Epoch  46: train_loss=0.000128, val_loss=0.000058, val_corr=0.8037
+2025-11-24 22:36:39,996 - Epoch  47: train_loss=0.000069, val_loss=0.000117, val_corr=0.7207
+2025-11-24 22:36:42,166 - Epoch  48: train_loss=0.000107, val_loss=0.000071, val_corr=0.7522
+2025-11-24 22:36:44,809 - Epoch  49: train_loss=0.000087, val_loss=0.000100, val_corr=0.7378
+2025-11-24 22:36:47,794 - Epoch  50: train_loss=0.000078, val_loss=0.000048, val_corr=0.8176
+2025-11-24 22:36:47,800 -   -> New best validation loss: 0.000048
+2025-11-24 22:36:50,604 - Epoch  51: train_loss=0.000114, val_loss=0.000066, val_corr=0.7297
+2025-11-24 22:36:52,324 - Epoch  52: train_loss=0.000079, val_loss=0.000063, val_corr=0.7725
+2025-11-24 22:36:56,137 - Epoch  53: train_loss=0.000065, val_loss=0.000100, val_corr=0.6645
+2025-11-24 22:36:59,184 - Epoch  54: train_loss=0.000110, val_loss=0.000104, val_corr=0.7080
+2025-11-24 22:37:00,739 - Epoch  55: train_loss=0.000094, val_loss=0.000154, val_corr=0.5910
+2025-11-24 22:37:03,359 - Epoch  56: train_loss=0.000091, val_loss=0.000095, val_corr=0.6768
+2025-11-24 22:37:06,244 - Epoch  57: train_loss=0.000064, val_loss=0.000149, val_corr=0.6361
+2025-11-24 22:37:07,781 - Epoch  58: train_loss=0.000095, val_loss=0.000120, val_corr=0.6714
+2025-11-24 22:37:10,727 - Epoch  59: train_loss=0.000117, val_loss=0.000089, val_corr=0.7454
+2025-11-24 22:37:14,674 - Epoch  60: train_loss=0.000124, val_loss=0.000096, val_corr=0.7200
+2025-11-24 22:37:17,630 - Epoch  61: train_loss=0.000098, val_loss=0.000157, val_corr=0.6056
+2025-11-24 22:37:19,645 - Epoch  62: train_loss=0.000106, val_loss=0.000137, val_corr=0.6033
+2025-11-24 22:37:21,319 - Epoch  63: train_loss=0.000076, val_loss=0.000155, val_corr=0.5140
+2025-11-24 22:37:23,394 - Epoch  64: train_loss=0.000072, val_loss=0.000118, val_corr=0.6488
+2025-11-24 22:37:25,620 - Epoch  65: train_loss=0.000083, val_loss=0.000111, val_corr=0.6624
+2025-11-24 22:37:27,854 - Epoch  66: train_loss=0.000075, val_loss=0.000069, val_corr=0.7257
+2025-11-24 22:37:30,474 - Epoch  67: train_loss=0.000077, val_loss=0.000060, val_corr=0.7763
+2025-11-24 22:37:32,810 - Epoch  68: train_loss=0.000064, val_loss=0.000095, val_corr=0.7177
+2025-11-24 22:37:35,901 - Epoch  69: train_loss=0.000069, val_loss=0.000199, val_corr=0.6326
+2025-11-24 22:37:38,396 - Epoch  70: train_loss=0.000098, val_loss=0.000073, val_corr=0.7076
+2025-11-24 22:37:38,396 - 
+Early stopping at epoch 70
+2025-11-24 22:37:38,401 - Restored best model weights
+2025-11-24 22:37:38,401 - 
+============================================================
+2025-11-24 22:37:38,401 - Evaluation Results
+2025-11-24 22:37:38,401 - ============================================================
+2025-11-24 22:37:38,546 - 
+Validation Set:
+2025-11-24 22:37:38,546 -   MSE:  0.000046
+2025-11-24 22:37:38,546 -   MAE:  0.004994
+2025-11-24 22:37:38,546 -   RMSE: 0.006781
+2025-11-24 22:37:38,546 -   Pearson r:  0.861960 (p=3.09e-08)
+2025-11-24 22:37:38,546 -   Spearman r: 0.773326 (p=5.82e-06)
+2025-11-24 22:37:38,546 -   Pred mean: 0.0065, std: 0.0066
+2025-11-24 22:37:38,546 -   True mean: 0.0065, std: 0.0116
+2025-11-24 22:37:38,546 - 
+Test Set:
+2025-11-24 22:37:38,546 -   MSE:  0.000105
+2025-11-24 22:37:38,546 -   MAE:  0.007110
+2025-11-24 22:37:38,546 -   RMSE: 0.010250
+2025-11-24 22:37:38,546 -   Pearson r:  0.938500 (p=2.14e-15)
+2025-11-24 22:37:38,546 -   Spearman r: 0.841484 (p=1.61e-09)
+2025-11-24 22:37:38,546 -   Pred mean: 0.0104, std: 0.0124
+2025-11-24 22:37:38,546 -   True mean: 0.0133, std: 0.0204
+2025-11-24 22:37:38,546 - 
+============================================================
+2025-11-24 22:37:38,546 - Saving Results
+2025-11-24 22:37:38,546 - ============================================================
+2025-11-24 22:37:38,553 - Saved model weights: ./logs_experiment/false_alarm/model_weights.h5
+2025-11-24 22:37:38,554 - Saved predictions: ./logs_experiment/false_alarm/predictions.npy
+2025-11-24 22:37:38,555 - Saved training history: ./logs_experiment/false_alarm/training_history.csv
+2025-11-24 22:37:38,555 - Saved metrics: ./logs_experiment/false_alarm/metrics.json
+2025-11-24 22:37:38,555 - Saved config: ./logs_experiment/false_alarm/config.json
+2025-11-24 22:37:38,555 - 
+============================================================
+2025-11-24 22:37:38,555 - Training Complete
+2025-11-24 22:37:38,555 - Duration: 200.4 seconds
+2025-11-24 22:37:38,555 - Results saved to: ./logs_experiment/false_alarm
+2025-11-24 22:37:38,555 - ============================================================
