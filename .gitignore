@@ -1,0 +1,5 @@
+# Large data files that exceed GitHub's 100MB limit
+**/merged_data.csv
+**/eeg_eye_data.csv
+**/*.mp4
+

@@ -1,0 +1,176 @@
+2026-01-02 21:02:07,806 - ======================================================================
+2026-01-02 21:02:07,806 - DATA PROCESSING AND MODELING PIPELINE
+2026-01-02 21:02:07,806 - ======================================================================
+2026-01-02 21:02:07,806 - Data directory: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang
+2026-01-02 21:02:07,806 - Start time: 2026-01-02 21:02:07
+2026-01-02 21:02:07,806 - Log file: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/pipeline_20260102_210207.log
+2026-01-02 21:02:07,806 - 
+2026-01-02 21:02:07,806 - ============================================================
+2026-01-02 21:02:07,806 - STEP 1: Loading and Trimming Data
+2026-01-02 21:02:07,806 - ============================================================
+2026-01-02 21:02:07,806 - Loading data from: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/merged_data.csv
+2026-01-02 21:02:09,315 - Loaded 1175657 samples
+2026-01-02 21:02:09,316 - Original duration: 2358.61s (39.31 min)
+2026-01-02 21:02:09,323 - Original sampling rate: 648.93 Hz
+2026-01-02 21:02:09,323 - Trimming: first 300.0s, last 0.0s
+2026-01-02 21:02:09,437 - After trimming: 2058.61s (34.31 min)
+2026-01-02 21:02:09,437 - Samples after trimming: 1025953
+2026-01-02 21:02:09,439 - ============================================================
+2026-01-02 21:02:09,440 - STEP 2: Resampling
+2026-01-02 21:02:09,440 - ============================================================
+2026-01-02 21:02:09,440 - Resampling from 648.93 Hz to 200 Hz
+2026-01-02 21:02:09,440 - Samples: 1025953 -> 316198
+2026-01-02 21:02:09,626 - ============================================================
+2026-01-02 21:02:09,626 - STEP 3: Segmentation
+2026-01-02 21:02:09,626 - ============================================================
+2026-01-02 21:02:09,627 - Created 394 windows
+2026-01-02 21:02:09,627 - Window shape: 1600 samples x 2 channels
+2026-01-02 21:02:09,627 - ============================================================
+2026-01-02 21:02:09,627 - STEP 4: Extracting DE Features
+2026-01-02 21:02:09,627 - ============================================================
+2026-01-02 21:02:09,627 - Extracting DE for 394 windows, 2 channels, 25 bands
+2026-01-02 21:02:10,295 -   Processing window 100/394
+2026-01-02 21:02:10,962 -   Processing window 200/394
+2026-01-02 21:02:11,627 -   Processing window 300/394
+2026-01-02 21:02:12,253 -   Processing window 394/394
+2026-01-02 21:02:12,260 - DE features shape: (2, 394, 25)
+2026-01-02 21:02:12,260 - ============================================================
+2026-01-02 21:02:12,260 - STEP 5: Applying Smoothing
+2026-01-02 21:02:12,260 - ============================================================
+2026-01-02 21:02:12,260 - Applying moving average (window=5)...
+2026-01-02 21:02:12,260 - Applying LDS (Kalman filter) smoothing...
+2026-01-02 21:02:13,821 - Smoothing completed
+2026-01-02 21:02:13,821 - ============================================================
+2026-01-02 21:02:13,821 - STEP 6: Computing PERCLOS Labels
+2026-01-02 21:02:13,821 - ============================================================
+2026-01-02 21:02:14,035 - Unique eye states in data: ['close' 'open']
+2026-01-02 21:02:14,045 - Eye closed samples: 18934.0 / 1025953 (1.85%)
+2026-01-02 21:02:14,045 - Computing PERCLOS with 60.0s window...
+2026-01-02 21:02:14,303 - PERCLOS range: [0.0000, 0.1685]
+2026-01-02 21:02:14,303 - PERCLOS mean: 0.0184, std: 0.0271
+2026-01-02 21:02:14,303 - Distribution: Awake=394 (100.0%), Tired=0 (0.0%), Drowsy=0 (0.0%)
+2026-01-02 21:02:14,303 - ============================================================
+2026-01-02 21:02:14,303 - STEP 7: Saving Preprocessed Data
+2026-01-02 21:02:14,303 - ============================================================
+2026-01-02 21:02:14,304 - Saved DE features: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/processed/de_features.npy
+2026-01-02 21:02:14,304 -   Shape: (394, 2, 25)
+2026-01-02 21:02:14,304 - Saved PERCLOS labels: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/processed/perclos_labels.npy
+2026-01-02 21:02:14,304 - Saved timestamps: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/processed/timestamps.npy
+2026-01-02 21:02:14,304 - Saved metadata: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/processed/metadata.npy
+2026-01-02 21:02:14,304 - ============================================================
+2026-01-02 21:02:14,304 - STEP 8: Data Splitting (Block-wise Random)
+2026-01-02 21:02:14,304 - ============================================================
+2026-01-02 21:02:14,304 - Created 39 blocks (block_size=8, gap=2)
+2026-01-02 21:02:14,304 - Split results:
+2026-01-02 21:02:14,304 -   Train: 216 samples (69.2%)
+2026-01-02 21:02:14,304 -   Valid: 40 samples (12.8%)
+2026-01-02 21:02:14,304 -   Test:  56 samples (17.9%)
+2026-01-02 21:02:14,304 -   Discarded (gaps): 82 samples
+2026-01-02 21:02:14,304 - ============================================================
+2026-01-02 21:02:14,304 - STEP 9-10: Model Training
+2026-01-02 21:02:14,304 - ============================================================
+2026-01-02 21:02:14,334 - Using GPU: PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')
+2026-01-02 21:02:14,334 - Train: (216, 2, 25), Val: (40, 2, 25), Test: (56, 2, 25)
+2026-01-02 21:02:14,334 - Applied StandardScaler normalization
+2026-01-02 21:02:14,670 - Learning rate: 0.005
+2026-01-02 21:02:14,671 - Max epochs: 500
+2026-01-02 21:02:14,671 - Batch size: 8
+2026-01-02 21:02:14,671 - Early stopping patience: 50
+2026-01-02 21:02:17,131 - Epoch   1: Train Loss = 0.002028, Val Loss = 0.000377
+2026-01-02 21:02:17,132 -   -> New best validation loss: 0.000377
+2026-01-02 21:02:19,015 - Epoch   2: Train Loss = 0.001586, Val Loss = 0.000384
+2026-01-02 21:02:20,878 - Epoch   3: Train Loss = 0.001119, Val Loss = 0.000345
+2026-01-02 21:02:20,879 -   -> New best validation loss: 0.000345
+2026-01-02 21:02:22,895 - Epoch   4: Train Loss = 0.000973, Val Loss = 0.000410
+2026-01-02 21:02:24,846 - Epoch   5: Train Loss = 0.000887, Val Loss = 0.000356
+2026-01-02 21:02:26,786 - Epoch   6: Train Loss = 0.000885, Val Loss = 0.000383
+2026-01-02 21:02:28,796 - Epoch   7: Train Loss = 0.000983, Val Loss = 0.000369
+2026-01-02 21:02:30,732 - Epoch   8: Train Loss = 0.000900, Val Loss = 0.000349
+2026-01-02 21:02:32,692 - Epoch   9: Train Loss = 0.000801, Val Loss = 0.000408
+2026-01-02 21:02:34,639 - Epoch  10: Train Loss = 0.000761, Val Loss = 0.000331
+2026-01-02 21:02:34,640 -   -> New best validation loss: 0.000331
+2026-01-02 21:02:36,625 - Epoch  11: Train Loss = 0.000688, Val Loss = 0.000498
+2026-01-02 21:02:38,545 - Epoch  12: Train Loss = 0.000676, Val Loss = 0.000350
+2026-01-02 21:02:40,509 - Epoch  13: Train Loss = 0.000620, Val Loss = 0.000407
+2026-01-02 21:02:42,482 - Epoch  14: Train Loss = 0.000588, Val Loss = 0.000360
+2026-01-02 21:02:44,464 - Epoch  15: Train Loss = 0.000588, Val Loss = 0.000299
+2026-01-02 21:02:44,465 -   -> New best validation loss: 0.000299
+2026-01-02 21:02:46,395 - Epoch  16: Train Loss = 0.000566, Val Loss = 0.000344
+2026-01-02 21:02:48,373 - Epoch  17: Train Loss = 0.000620, Val Loss = 0.000306
+2026-01-02 21:02:50,362 - Epoch  18: Train Loss = 0.000529, Val Loss = 0.000327
+2026-01-02 21:02:52,337 - Epoch  19: Train Loss = 0.000487, Val Loss = 0.000317
+2026-01-02 21:02:54,320 - Epoch  20: Train Loss = 0.000564, Val Loss = 0.000416
+2026-01-02 21:02:56,334 - Epoch  21: Train Loss = 0.000750, Val Loss = 0.000372
+2026-01-02 21:02:58,331 - Epoch  22: Train Loss = 0.000645, Val Loss = 0.000359
+2026-01-02 21:03:00,301 - Epoch  23: Train Loss = 0.000552, Val Loss = 0.000366
+2026-01-02 21:03:02,258 - Epoch  24: Train Loss = 0.000683, Val Loss = 0.000409
+2026-01-02 21:03:04,215 - Epoch  25: Train Loss = 0.000687, Val Loss = 0.000370
+2026-01-02 21:03:06,168 - Epoch  26: Train Loss = 0.000434, Val Loss = 0.000450
+2026-01-02 21:03:08,154 - Epoch  27: Train Loss = 0.000515, Val Loss = 0.000405
+2026-01-02 21:03:10,142 - Epoch  28: Train Loss = 0.000539, Val Loss = 0.000429
+2026-01-02 21:03:12,085 - Epoch  29: Train Loss = 0.000474, Val Loss = 0.000361
+2026-01-02 21:03:14,080 - Epoch  30: Train Loss = 0.000482, Val Loss = 0.000344
+2026-01-02 21:03:16,063 - Epoch  31: Train Loss = 0.000472, Val Loss = 0.000368
+2026-01-02 21:03:18,035 - Epoch  32: Train Loss = 0.000548, Val Loss = 0.000367
+2026-01-02 21:03:20,017 - Epoch  33: Train Loss = 0.000451, Val Loss = 0.000349
+2026-01-02 21:03:22,013 - Epoch  34: Train Loss = 0.000416, Val Loss = 0.000432
+2026-01-02 21:03:23,956 - Epoch  35: Train Loss = 0.000387, Val Loss = 0.000451
+2026-01-02 21:03:25,928 - Epoch  36: Train Loss = 0.000433, Val Loss = 0.000382
+2026-01-02 21:03:27,921 - Epoch  37: Train Loss = 0.000452, Val Loss = 0.000398
+2026-01-02 21:03:29,925 - Epoch  38: Train Loss = 0.000460, Val Loss = 0.000395
+2026-01-02 21:03:31,884 - Epoch  39: Train Loss = 0.000565, Val Loss = 0.000344
+2026-01-02 21:03:33,879 - Epoch  40: Train Loss = 0.000511, Val Loss = 0.000402
+2026-01-02 21:03:35,889 - Epoch  41: Train Loss = 0.000414, Val Loss = 0.000419
+2026-01-02 21:03:37,860 - Epoch  42: Train Loss = 0.000376, Val Loss = 0.000536
+2026-01-02 21:03:39,840 - Epoch  43: Train Loss = 0.000406, Val Loss = 0.000417
+2026-01-02 21:03:41,811 - Epoch  44: Train Loss = 0.000379, Val Loss = 0.000475
+2026-01-02 21:03:43,758 - Epoch  45: Train Loss = 0.000635, Val Loss = 0.000456
+2026-01-02 21:03:45,724 - Epoch  46: Train Loss = 0.000434, Val Loss = 0.000415
+2026-01-02 21:03:47,697 - Epoch  47: Train Loss = 0.000475, Val Loss = 0.000568
+2026-01-02 21:03:49,715 - Epoch  48: Train Loss = 0.000347, Val Loss = 0.000520
+2026-01-02 21:03:51,705 - Epoch  49: Train Loss = 0.000372, Val Loss = 0.000463
+2026-01-02 21:03:53,739 - Epoch  50: Train Loss = 0.000377, Val Loss = 0.000358
+2026-01-02 21:03:55,794 - Epoch  51: Train Loss = 0.000288, Val Loss = 0.000401
+2026-01-02 21:03:57,796 - Epoch  52: Train Loss = 0.000472, Val Loss = 0.000470
+2026-01-02 21:03:59,765 - Epoch  53: Train Loss = 0.000337, Val Loss = 0.000477
+2026-01-02 21:04:01,783 - Epoch  54: Train Loss = 0.000353, Val Loss = 0.000579
+2026-01-02 21:04:03,802 - Epoch  55: Train Loss = 0.000431, Val Loss = 0.000565
+2026-01-02 21:04:05,835 - Epoch  56: Train Loss = 0.000400, Val Loss = 0.000490
+2026-01-02 21:04:07,825 - Epoch  57: Train Loss = 0.000219, Val Loss = 0.000462
+2026-01-02 21:04:09,869 - Epoch  58: Train Loss = 0.000278, Val Loss = 0.000407
+2026-01-02 21:04:11,877 - Epoch  59: Train Loss = 0.000345, Val Loss = 0.000514
+2026-01-02 21:04:13,846 - Epoch  60: Train Loss = 0.000272, Val Loss = 0.000400
+2026-01-02 21:04:15,822 - Epoch  61: Train Loss = 0.000353, Val Loss = 0.000503
+2026-01-02 21:04:17,820 - Epoch  62: Train Loss = 0.000461, Val Loss = 0.000341
+2026-01-02 21:04:19,847 - Epoch  63: Train Loss = 0.000285, Val Loss = 0.000371
+2026-01-02 21:04:21,843 - Epoch  64: Train Loss = 0.000293, Val Loss = 0.000569
+2026-01-02 21:04:23,858 - Epoch  65: Train Loss = 0.000393, Val Loss = 0.000477
+2026-01-02 21:04:23,858 - Early stopping at epoch 65
+2026-01-02 21:04:23,864 - Restored best model weights
+2026-01-02 21:04:23,864 - 
+============================================================
+2026-01-02 21:04:23,864 - EVALUATION RESULTS
+2026-01-02 21:04:23,864 - ============================================================
+2026-01-02 21:04:23,911 - Validation: MSE=0.000295, MAE=0.013536, RMSE=0.017176, Corr=0.470701
+2026-01-02 21:04:23,961 - Test:       MSE=0.000201, MAE=0.012505, RMSE=0.014171, Corr=0.363971
+2026-01-02 21:04:23,961 - 
+Saving model and results...
+2026-01-02 21:04:24,171 - Saved weights to: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/models/best_weights.h5
+2026-01-02 21:04:24,172 - Saved scaler to: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/models/scaler.pkl
+2026-01-02 21:04:24,172 - Saved predictions to: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/models/predictions.npy
+2026-01-02 21:04:24,172 - ============================================================
+2026-01-02 21:04:24,172 - STEP 11: Plotting Prediction Results
+2026-01-02 21:04:24,172 - ============================================================
+2026-01-02 21:04:25,170 - Saved prediction plots to: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/perclos_prediction_results.png
+2026-01-02 21:04:25,170 - 
+2026-01-02 21:04:25,170 - ======================================================================
+2026-01-02 21:04:25,170 - PIPELINE COMPLETED SUCCESSFULLY
+2026-01-02 21:04:25,170 - ======================================================================
+2026-01-02 21:04:25,170 - End time: 2026-01-02 21:04:25
+2026-01-02 21:04:25,170 - Duration: 0:02:17.363983
+2026-01-02 21:04:25,170 - 
+2026-01-02 21:04:25,170 - Output files:
+2026-01-02 21:04:25,170 -   - Preprocessed data: processed/
+2026-01-02 21:04:25,170 -   - Model and results: logs/models/
+2026-01-02 21:04:25,170 -   - Prediction plots: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/perclos_prediction_results.png
+2026-01-02 21:04:25,170 -   - Log file: /home/vivian/eeg/SEED_VIG/VIGNet/QiZhang/logs/pipeline_20260102_210207.log
