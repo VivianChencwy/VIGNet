@@ -114,9 +114,9 @@ class Config:
     
     # Training parameters
     LEARNING_RATE = 0.01
-    NUM_EPOCHS = 500
+    NUM_EPOCHS = 1000
     BATCH_SIZE = 64
-    EARLY_STOPPING_PATIENCE = 50
+    EARLY_STOPPING_PATIENCE = 100
     
     # Data split
     TRAIN_RATIO = 0.60
@@ -177,12 +177,32 @@ def load_and_trim_data(data_dir, config, logger):
     total_duration = lsl_timestamps[-1] - lsl_timestamps[0]
     logger.info(f"Original duration: {total_duration:.2f}s ({total_duration/60:.2f} min)")
     
-    # Estimate original sampling rate
+    # Estimate original sampling rate (robust to duplicates/zeros/outliers)
     time_diffs = np.diff(lsl_timestamps)
     if len(time_diffs) == 0:
         raise ValueError("Cannot estimate sampling rate: insufficient data points")
-    original_fs = 1.0 / np.median(time_diffs)
-    logger.info(f"Original sampling rate: {original_fs:.2f} Hz")
+
+    # Keep positive diffs only to avoid duplicates/zeros
+    pos_diffs = time_diffs[time_diffs > 0]
+    if len(pos_diffs) == 0:
+        raise ValueError("No positive timestamp differences; cannot estimate sampling rate.")
+
+    raw_fs = 1.0 / np.median(pos_diffs)
+
+    # Trim outliers (1st–99th percentile) for a more stable estimate
+    lo, hi = np.percentile(pos_diffs, [1, 99])
+    trimmed = pos_diffs[(pos_diffs >= lo) & (pos_diffs <= hi)]
+    trimmed = trimmed if len(trimmed) > 0 else pos_diffs
+    robust_fs = 1.0 / np.median(trimmed)
+
+    # Estimate duration from row count with robust_fs for sanity
+    est_duration_rows = len(df) / robust_fs
+
+    logger.info(f"Sampling rate (raw median, pos diffs): {raw_fs:.2f} Hz")
+    logger.info(f"Sampling rate (trimmed 1-99%): {robust_fs:.2f} Hz")
+    logger.info(f"Duration by timestamps: {total_duration:.2f}s ({total_duration/60:.2f} min)")
+    logger.info(f"Duration by rows@robust_fs: {est_duration_rows:.2f}s ({est_duration_rows/60:.2f} min)")
+    original_fs = robust_fs
     
     # Trim start and end
     if config.TRIM_START_SEC > 0 or config.TRIM_END_SEC > 0:
@@ -413,14 +433,21 @@ def compute_perclos(df, window_timestamps, config, logger):
 # Step 6b: Composite Label Calculation
 # =============================================================================
 
-def compute_composite_label(df, window_timestamps, perclos, config, logger):
+def compute_composite_label(df, window_timestamps, perclos, config, logger, train_idx=None):
     """
     Compute composite label using z-scored metrics with weights 3:3:1:1:1
     Components: perclos, KSS, stress, frustration, accuracy (rating_label)
+    
+    If train_idx is provided, z-score normalization uses only training data to avoid data leakage.
     """
     logger.info("=" * 60)
     logger.info("STEP 6b: Computing Composite Label")
     logger.info("=" * 60)
+    
+    if train_idx is not None:
+        logger.info(f"Using training set only for z-score normalization (train_idx length: {len(train_idx)})")
+    else:
+        logger.warning("No train_idx provided; using all data for z-score (may cause data leakage)")
 
     unix_ts = df[config.UNIX_TIMESTAMP_COLUMN].values
 
@@ -458,8 +485,22 @@ def compute_composite_label(df, window_timestamps, perclos, config, logger):
             logger.warning(f"{name}: insufficient finite values for z-score; filling zeros")
             norm = np.zeros_like(arr)
         else:
-            mean = np.nanmean(arr[finite])
-            std = np.nanstd(arr[finite])
+            # Use training set statistics only if train_idx is provided
+            if train_idx is not None and len(train_idx) > 0:
+                train_arr = arr[train_idx]
+                train_finite = finite[train_idx]
+                if train_finite.sum() < 2:
+                    logger.warning(f"{name}: insufficient training data for z-score; using all data")
+                    mean = np.nanmean(arr[finite])
+                    std = np.nanstd(arr[finite])
+                else:
+                    mean = np.nanmean(train_arr[train_finite])
+                    std = np.nanstd(train_arr[train_finite])
+                    logger.info(f"{name}: z-score stats from training set only (mean={mean:.4f}, std={std:.4f})")
+            else:
+                mean = np.nanmean(arr[finite])
+                std = np.nanstd(arr[finite])
+            
             if std < 1e-8:
                 logger.warning(f"{name}: std nearly zero; z-score set to zero")
                 norm = np.zeros_like(arr)
@@ -953,8 +994,8 @@ def train_model(data_dir, features, labels, train_idx, val_idx, test_idx, config
 # Step 11: Plot Prediction Results
 # =============================================================================
 
-def plot_perclos_predictions(predictions, output_path, logger):
-    """Plot comprehensive visualization of PERCLOS predictions"""
+def plot_fatigue_predictions(predictions, output_path, logger):
+    """Plot comprehensive visualization of fatigue (composite label) predictions"""
     logger.info("=" * 60)
     logger.info("STEP 11: Plotting Prediction Results")
     logger.info("=" * 60)
@@ -1004,8 +1045,8 @@ def plot_perclos_predictions(predictions, output_path, logger):
             logger.warning(f"{set_name}: Could not fit regression line: {e}")
             slope = 0.0
         
-        ax1.set_xlabel('True PERCLOS', fontsize=11, fontweight='bold')
-        ax1.set_ylabel('Predicted PERCLOS', fontsize=11, fontweight='bold')
+        ax1.set_xlabel('True Fatigue', fontsize=11, fontweight='bold')
+        ax1.set_ylabel('Predicted Fatigue', fontsize=11, fontweight='bold')
         corr_str = f'{set_metrics["corr"]:.4f}' if not np.isnan(set_metrics["corr"]) else 'nan'
         ax1.set_title(f'{set_name.upper()} Set: Scatter Plot\n'
                       f'r = {corr_str}, RMSE = {set_metrics["rmse"]:.4f}',
@@ -1016,10 +1057,10 @@ def plot_perclos_predictions(predictions, output_path, logger):
         
         # 2. Time series comparison
         time_points = np.arange(len(y_true_clean))
-        ax2.plot(time_points, y_true_clean, 'o-', label='True PERCLOS', alpha=0.7, linewidth=2, markersize=3)
-        ax2.plot(time_points, y_pred_clean, 's-', label='Predicted PERCLOS', alpha=0.7, linewidth=2, markersize=3)
+        ax2.plot(time_points, y_true_clean, 'o-', label='True Fatigue', alpha=0.7, linewidth=2, markersize=3)
+        ax2.plot(time_points, y_pred_clean, 's-', label='Predicted Fatigue', alpha=0.7, linewidth=2, markersize=3)
         ax2.set_xlabel('Sample Index', fontsize=11, fontweight='bold')
-        ax2.set_ylabel('PERCLOS', fontsize=11, fontweight='bold')
+        ax2.set_ylabel('Fatigue', fontsize=11, fontweight='bold')
         ax2.set_title(f'{set_name.upper()} Set: Time Series', fontsize=12, fontweight='bold')
         ax2.legend(fontsize=9)
         ax2.grid(True, alpha=0.3)
@@ -1028,7 +1069,7 @@ def plot_perclos_predictions(predictions, output_path, logger):
         residuals = y_true_clean - y_pred_clean
         ax3.scatter(y_pred_clean, residuals, alpha=0.6, s=50, edgecolors='black', linewidth=0.5)
         ax3.axhline(y=0, color='r', linestyle='--', linewidth=2)
-        ax3.set_xlabel('Predicted PERCLOS', fontsize=11, fontweight='bold')
+        ax3.set_xlabel('Predicted Fatigue', fontsize=11, fontweight='bold')
         ax3.set_ylabel('Residuals (True - Predicted)', fontsize=11, fontweight='bold')
         ax3.set_title(f'{set_name.upper()} Set: Residuals\n'
                       f'Mean = {residuals.mean():.4f}, Std = {residuals.std():.4f}',
@@ -1231,8 +1272,8 @@ def evaluate_model(data_dir, config, logger):
     logger.info(f"\nSaved evaluation predictions to: {pred_path}")
     
     # Plot results
-    plot_output_path = os.path.join(log_dir, "perclos_prediction_results_eval.png")
-    plot_perclos_predictions(predictions, plot_output_path, logger)
+    plot_output_path = os.path.join(log_dir, "fatigue_prediction_results_eval.png")
+    plot_fatigue_predictions(predictions, plot_output_path, logger)
     
     logger.info("\n" + "=" * 60)
     logger.info("EVALUATION COMPLETED")
@@ -1312,7 +1353,7 @@ def main():
             logger.info("")
             logger.info("Output files:")
             logger.info(f"  - Evaluation predictions: {config.LOG_DIR}/models/predictions_eval.npy")
-            logger.info(f"  - Prediction plots: {config.LOG_DIR}/perclos_prediction_results_eval.png")
+            logger.info(f"  - Prediction plots: {config.LOG_DIR}/fatigue_prediction_results_eval.png")
             logger.info(f"  - Log file: {log_path}")
             return
         
@@ -1355,15 +1396,16 @@ def main():
         
         # Step 6: Compute PERCLOS
         perclos = compute_perclos(df, window_unix_timestamps, config, logger)
+        
+        # Step 8: Split data FIRST (based on perclos to avoid data leakage in normalization)
+        # We split before computing composite label to ensure z-score normalization uses only training data
+        train_idx, val_idx, test_idx = blockwise_random_split(perclos, config, logger)
 
-        # Step 6b: Compute composite label
-        composite_label, _norms = compute_composite_label(df, window_unix_timestamps, perclos, config, logger)
+        # Step 6b: Compute composite label (AFTER splitting, using train_idx for z-score normalization)
+        composite_label, _norms = compute_composite_label(df, window_unix_timestamps, perclos, config, logger, train_idx=train_idx)
         
         # Step 7: Save preprocessed data
         de_transposed = save_preprocessed_data(data_dir, de_smoothed, perclos, composite_label, window_unix_timestamps, config, logger)
-        
-        # Step 8: Split data (block-wise stratified to preserve distribution and reduce leakage)
-        train_idx, val_idx, test_idx = blockwise_random_split(composite_label, config, logger)
         
         # Save split indices for evaluation
         processed_dir = os.path.join(data_dir, config.OUTPUT_DIR)
@@ -1380,8 +1422,8 @@ def main():
         predictions = train_model(data_dir, de_transposed, composite_label, train_idx, val_idx, test_idx, config, logger)
         
         # Step 11: Plot prediction results
-        plot_output_path = os.path.join(log_dir, "perclos_prediction_results.png")
-        plot_perclos_predictions(predictions, plot_output_path, logger)
+        plot_output_path = os.path.join(log_dir, "fatigue_prediction_results.png")
+        plot_fatigue_predictions(predictions, plot_output_path, logger)
         
         end_time = datetime.now()
         duration = end_time - start_time
