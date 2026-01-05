@@ -107,7 +107,9 @@ class Config:
     KSS_COLUMN = 'kss_rating'
     STRESS_COLUMN = 'stress'
     FRUSTRATION_COLUMN = 'frustration'
-    ACCURACY_COLUMN = 'rating_label'  # from EDA definition
+    # Accuracy columns: compare target vs response to compute correctness per window
+    ACC_TARGET_COLUMN = 'is_target_double_jump'
+    ACC_RESP_COLUMN = 'responded'
     
     # Composite label weights (perclos, kss, stress, frustration, accuracy)
     COMPOSITE_WEIGHTS = [3.0, 3.0, 1.0, 1.0, 1.0]
@@ -387,13 +389,19 @@ def compute_perclos(df, window_timestamps, config, logger):
     eye_states = df[config.EYE_STATE_COLUMN].values
     eye_timestamps = df[config.UNIX_TIMESTAMP_COLUMN].values
     
+    # Convert to string and handle NaN/empty values
+    # This ensures consistent type handling across different data files
+    eye_states_str = pd.Series(eye_states).astype(str)
+    # Replace 'nan' (string representation), empty strings, and 'None' with 'unknown'
+    eye_states_str = eye_states_str.replace(['nan', '', 'None'], 'unknown')
+    
     # Check actual eye state values in data
-    unique_states = np.unique(eye_states)
+    unique_states = np.unique(eye_states_str.values)
     logger.info(f"Unique eye states in data: {unique_states}")
     
     # Convert eye states to binary (1 = closed/close, 0 = open)
     # Handle both 'closed' and 'close' variants
-    eye_closed = np.isin(eye_states, ['closed', 'close']).astype(float)
+    eye_closed = np.isin(eye_states_str.values, ['closed', 'close']).astype(float)
     
     closed_count = np.sum(eye_closed)
     total_count = len(eye_closed)
@@ -436,7 +444,7 @@ def compute_perclos(df, window_timestamps, config, logger):
 def compute_composite_label(df, window_timestamps, perclos, config, logger, train_idx=None):
     """
     Compute composite label using z-scored metrics with weights 3:3:1:1:1
-    Components: perclos, KSS, stress, frustration, accuracy (rating_label)
+    Components: perclos, KSS, stress, frustration, accuracy (from target/response match)
     
     If train_idx is provided, z-score normalization uses only training data to avoid data leakage.
     """
@@ -468,7 +476,24 @@ def compute_composite_label(df, window_timestamps, perclos, config, logger, trai
     kss = window_mean(config.KSS_COLUMN)
     stress = window_mean(config.STRESS_COLUMN)
     frustration = window_mean(config.FRUSTRATION_COLUMN)
-    accuracy = window_mean(config.ACCURACY_COLUMN)
+
+    def window_accuracy(target_col, resp_col):
+        if target_col not in df.columns or resp_col not in df.columns:
+            raise ValueError(f"Columns '{target_col}' or '{resp_col}' not found for accuracy.")
+        target = pd.to_numeric(df[target_col], errors='coerce').values
+        resp = pd.to_numeric(df[resp_col], errors='coerce').values
+        vals = []
+        for win_ts in window_timestamps:
+            win_start = win_ts - config.PERCLOS_WINDOW_SEC
+            mask = (unix_ts >= win_start) & (unix_ts <= win_ts)
+            valid = mask & np.isfinite(target) & np.isfinite(resp)
+            if valid.sum() > 0:
+                vals.append(np.mean(target[valid] == resp[valid]))
+            else:
+                vals.append(np.nan)
+        return np.array(vals, dtype=float)
+
+    accuracy = window_accuracy(config.ACC_TARGET_COLUMN, config.ACC_RESP_COLUMN)
 
     components = {
         "perclos": perclos,
